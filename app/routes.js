@@ -1,6 +1,5 @@
 // app/routes.js
 // set up ======================================================================
-var express = require('express');  // insert express
 var instagramUtils = require('./instagramUtils.js');
 
 // exports.route = route;

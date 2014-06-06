@@ -209,7 +209,7 @@
         userName = $("#username-form #message").val();
         e.preventDefault();
         runFirebase();
-        loadXMLDoc();
+        loadXMLDoc();  // fire an ajax server request.
         return false;
       });
     });

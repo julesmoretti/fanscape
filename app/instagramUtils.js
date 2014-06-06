@@ -1,19 +1,18 @@
 // app/instagramUtils.js
 var url             = require("url");
 var ig              = require('instagram-node').instagram();
-var express         = require('express');
 var _               = require('underscore');
-var async           = require('async');
 var Firebase        = require('firebase');
 
 // Instagram specific settings.
-ig.use({ access_token: '571377691.a1a66b7.e2e448e987c74fe0aff6c918d0925fb4',
-            client_id: 'a1a66b75bb924ce3b35151247480cbbc',
-        client_secret: '73e163c1cfa14442b9403b5f6adf9a63' });
+ig.use({ access_token  : '571377691.a1a66b7.e2e448e987c74fe0aff6c918d0925fb4'
+       ,client_id      : 'a1a66b75bb924ce3b35151247480cbbc'
+       ,client_secret  : '73e163c1cfa14442b9403b5f6adf9a63'
+        });
 
-exports.loadPage = function(req, res){
+exports.loadPage = function(req, res) {
   res.render('../views/globe.ejs');
-}
+  };
 
 exports.temp = function(req, res){
   var pathname = url.parse(req.url).pathname;  // extrapolates path from submit button.
@@ -23,7 +22,7 @@ exports.temp = function(req, res){
   var userName = userObj[1];  // extrapolate username from field.
   console.log(userName, "user name");
   res.json("yolo"); // ends the ajax response from client side.
-}
+  };
 
 exports.fetchAllMedia = function(req, res) {
   var followers = [];  //stores users followers ID list in array.
@@ -40,7 +39,7 @@ exports.fetchAllMedia = function(req, res) {
   var date = function(){
     var d = new Date();
     return d.getUTCFullYear()+"-"+d.getUTCMonth()+"-"+d.getUTCDate();
-  }();
+    }();
 
 
   // extract from input the user name.
@@ -76,7 +75,7 @@ exports.fetchAllMedia = function(req, res) {
         checkIntegrity(); // checks integrity of database for existing data
       }
     }
-  }
+    };
 
   // STEP 3 //
   var checkIntegrity = function (err, medias, pagination, limit) {
@@ -127,7 +126,7 @@ exports.fetchAllMedia = function(req, res) {
     } else {
       console.log("the date exist and completed everything, so no need to do anything");
     }
-  }
+    };
 
   // STEP 4 //
   var followersMedia = function (err, medias, pagination, limit) {
@@ -136,7 +135,7 @@ exports.fetchAllMedia = function(req, res) {
     fb.child(userName).child('locations').child(date).child(followers[followersCount]).remove(function(){
       ig.user_media_recent(followers[followersCount], extractCoordinates);
     });
-  }
+    };
 
   // STEP 5 //
   // extract locations from one big feed.
@@ -164,7 +163,7 @@ exports.fetchAllMedia = function(req, res) {
       console.log("extractCoordinates had no media to extract for - "+ followers[followersCount]);
       startNextExtraction();
     }
-  };
+    };
 
   // STEP 6 //
   var startNextExtraction = function(){
@@ -183,7 +182,7 @@ exports.fetchAllMedia = function(req, res) {
         });
       }
     })
-  };
+    };
 
   // STEP 7 //
   // takes the media object that has pictures, and geolocation and returns an array of long, lat and mag.
@@ -214,7 +213,7 @@ exports.fetchAllMedia = function(req, res) {
     var flatResult = _.flatten(result);
 
     return flatResult;
-  };
+    };
 
   // STEP 1 //
   // search inputed username or query for a property id === 571377691
@@ -264,5 +263,5 @@ exports.fetchAllMedia = function(req, res) {
         });
       });
     });
-  });
-};
+    });
+  };
