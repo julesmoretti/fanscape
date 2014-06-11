@@ -15,7 +15,7 @@ ig.use({
   client_secret: process.env.FANSCAPECLIENTSECRET
 });
 
-var redirect_uri = 'http://localhost:3000/auth/instagram/callback';
+var redirect_uri = 'http://fanscape.azurewebsites.net/auth/instagram/callback';
 
 var fb = new Firebase('https://fanscape.firebaseio.com/');  // connects to Firebase.
 
