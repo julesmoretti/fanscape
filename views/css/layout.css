@@ -10,10 +10,10 @@
     font-family: 'Comfortaa';
     src: url('Comfortaa-Light.ttf');
 }
-@font-face {
+/*@font-face {
     font-family: 'Linear';
     src: url('Linear.otf');
-}
+}*/
 
 body{
     font-family: 'Linear', "Helvetica Neue", Arial;
