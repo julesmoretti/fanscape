@@ -86,6 +86,9 @@
               globe.addData(crossRef(rawData, 0.005), {format: 'magnitude'});
               globe.createPoints();
               globe.animate();
+
+              console.log("pre check");
+              console.log(fa.child('followers').totalFollowers, "total followers");
               if( fa.child('followers').totalFollowers === fa.child('followers').followersDone ){
                 // Firebase.goOffline()
                 console.log("IT IS ALL DONE YO!!!!!!!");
