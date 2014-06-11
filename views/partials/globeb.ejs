@@ -86,6 +86,10 @@
               globe.addData(crossRef(rawData, 0.005), {format: 'magnitude'});
               globe.createPoints();
               globe.animate();
+              if( fa.child('followers').totalFollowers === fa.child('followers').followersDone ){
+                // Firebase.goOffline()
+                console.log("IT IS ALL DONE YO!!!!!!!");
+              }
             } else {
               console.log("No data found for specific query");
             }
@@ -118,6 +122,7 @@
                 globe.addData(crossRef(todayUserData, 0.005), {format: 'magnitude'});
                 globe.createPoints();
                 globe.animate();
+                goLive();
 
               // if no status then that means that the data has not completely downloaded
               } else {
