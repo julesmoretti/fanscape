@@ -1,0 +1,29 @@
+Wed Jun 11 2014 01:48:03 GMT-0700 (PDT):
+{ [Error: Unable to locate site named azure]
+  stack: [Getter/Setter],
+  __frame: 
+   { name: 'lookupSiteNameAndWebSpace__19',
+     line: 841,
+     file: '/usr/local/lib/node_modules/azure-cli/lib/commands/asm/websites/websitesclient._js',
+     prev: 
+      { name: 'siteAppsettings_listCommand__1',
+        line: 33,
+        file: '/usr/local/lib/node_modules/azure-cli/lib/commands/asm/site.appsetting._js',
+        prev: undefined,
+        active: false,
+        offset: 10,
+        col: 6 },
+     active: false,
+     offset: 12,
+     col: 4 },
+  rawStack: [Getter] }
+Error: Unable to locate site named azure
+    at ___ (/usr/local/lib/node_modules/azure-cli/lib/commands/asm/websites/websitesclient._js:837:20)
+    at ___ (/usr/local/lib/node_modules/azure-cli/node_modules/streamline/lib/callbacks/runtime.js:85:13)
+    at ___ (/usr/local/lib/node_modules/azure-cli/lib/commands/asm/websites/websitesclient._js:473:131)
+    at __tryCatch (/usr/local/lib/node_modules/azure-cli/node_modules/streamline/lib/callbacks/runtime.js:141:4)
+    at ___ (/usr/local/lib/node_modules/azure-cli/lib/commands/asm/websites/websitesclient._js:473:67)
+    at getSites__7 (/usr/local/lib/node_modules/azure-cli/lib/commands/asm/websites/websitesclient._js:473:33)
+    at lookupSiteNameAndWebSpace__19 (/usr/local/lib/node_modules/azure-cli/lib/commands/asm/websites/websitesclient._js:853:4)
+    at siteAppsettings_listCommand__1 (/usr/local/lib/node_modules/azure-cli/lib/commands/asm/site.appsetting._js:43:6)
+
