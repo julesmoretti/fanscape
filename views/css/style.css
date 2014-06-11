@@ -1,0 +1,183 @@
+html {
+        height: 100%;
+      }
+      body {
+        margin: 0;
+        padding: 0;
+        background: #000000 url(/views/img/loading.gif) center center no-repeat;
+
+        height: 100%;
+      }
+
+      #info {
+        font-size: 11px;
+        position: absolute;
+        bottom: 5px;
+        background-color: rgba(0,0,0,0.8);
+        border-radius: 3px;
+        right: 10px;
+        padding: 10px;
+
+      }
+
+      #signIn {
+        width:320px;
+        height:200px;
+        position: fixed;
+        /*opacity: 0.5;*/
+        /*background-color: #00FF00;*/
+        top: 50%;
+        left: 50%;
+        margin-top: -100px;
+        margin-left: -160px;
+      }
+
+      .titleWrap {
+        width:100%;
+        height:100px;
+        text-align: center;
+        vertical-align:middle;
+      }
+
+      #title {
+        width: 320px;
+        height: 100px;
+        position: fixed;
+        top: 50%;
+        left: 50%;
+        margin-top: -100px;
+        margin-left: -160px;
+        font-family: "estilo-regular",sans-serif;
+        font-size: 70px;
+        margin-top: -60px;
+        color: white;
+        opacity: 0.6;
+        text-align: center;
+      }
+
+      .instagramSign {
+        border-radius: 6px;
+        background: #f8f3e7;
+        /*opacity: 0.9;*/
+        width: 300;
+        height: 44px;
+        margin: 0 10px 0 10px;
+        margin-top: 20px;
+      }
+
+      .instaStripe {
+        width:10px;
+        height:100%;
+        float:left;
+      }
+
+      .tagLineWrap {
+        float: left;
+        height:100%;
+        width: 83%;
+        padding-top: 11px;
+      }
+
+      #tagLine {
+        font-size: 20px;
+        color: #4d473b;
+        font-weight: 500;
+        margin-left: 26px;
+      }
+
+
+      .typekit-badge {
+        display: none !important;
+      }
+
+      form#username-form {
+        margin-top: 16px;
+        margin-top: 5;
+      }
+
+      input#message {
+        height: 37px;
+        height: 4;
+        border: 0px;
+        width: 150px;
+        /* margin-bottom: 5px; */
+        margin-bottom: 1p;
+        margin-bottom: 1;
+        text-indent: 10px;
+        border-radius: 5px 0 0 5px;
+        border-radius: 5;
+        background-color: rgba(100,100,100,0.4);
+        color: #A5A5A5;
+      }
+
+      #button {
+
+      }
+
+      button {
+        border-radius: 0 5px 5px 0;
+        border: 0px;
+        border: 0;
+        height: 40px;
+        height: 4;
+        width: 80px;
+        opacity: 0.3;
+        font-size: 15px;
+      }
+
+      #currentInfo {
+        width: 270px;
+        position: absolute;
+        left: 20px;
+        top: 63px;
+
+        background-color: rgba(0,0,0,0.2);
+
+        border-top: 1px solid rgba(255,255,255,0.4);
+        padding: 10px;
+      }
+
+      a {
+        color: #aaa;
+        text-decoration: none;
+      }
+      a:hover {
+        text-decoration: underline;
+      }
+
+      .bull {
+        padding: 0 5px;
+        color: #555;
+      }
+
+      .year {
+        font: 16px Georgia;
+        line-height: 26px;
+        height: 30px;
+        text-align: center;
+        float: left;
+        width: 90px;
+        color: rgba(255, 255, 255, 0.4);
+
+        cursor: pointer;
+        -webkit-transition: all 0.1s ease-out;
+      }
+
+      .year:hover, .year.active {
+        font-size: 23px;
+        color: #fff;
+      }
+
+      #ce span {
+        display: none;
+      }
+
+      #ce {
+        width: 107px;
+        height: 55px;
+        display: block;
+        position: absolute;
+        bottom: 15px;
+        left: 20px;
+        background: url(/views/ce.png);
+      }

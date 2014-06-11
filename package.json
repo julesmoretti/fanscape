@@ -1,29 +1,15 @@
 {
-  "name": "BETA",
+  "name": "FanScape",
   "version": "0.0.1",
-  "description": "$ npm init $ npm install express --save $ npm install underscore --save $ npm install morgan --save $ npm install body-parser --save",
+  "description": "Analytic tool that displays your followers photos on a map",
   "main": "server.js",
   "dependencies": {
-    "async": "^0.8.0",
-    "bcrypt-nodejs": "latest",
     "body-parser": "^1.2.0",
-    "connect": "^2.19.4",
-    "connect-flash": "~0.1.1",
-    "ejs": "~0.8.5",
     "express": "^4.2.0",
     "firebase": "^1.0.15-3",
     "instagram": "0.0.4",
     "instagram-node": "^0.3.0",
-    "jquery": "^2.1.1",
-    "mongoose": "~3.8.1",
     "morgan": "^1.0.1",
-    "passport": "~0.1.17",
-    "passport-facebook": "~1.0.2",
-    "passport-google-oauth": "~0.1.5",
-    "passport-instagram": "^0.1.2",
-    "passport-local": "~0.1.6",
-    "passport-twitter": "~1.0.2",
-    "socket.io": "^0.9.16",
     "underscore": "^1.6.0"
   },
   "devDependencies": {},
@@ -33,7 +19,7 @@
   },
   "repository": {
     "type": "git",
-    "url": ""
+    "url": "https://github.com/julesmoretti/beta"
   },
   "author": "Jules Moretti",
   "license": "ISC"

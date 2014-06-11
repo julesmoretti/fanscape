@@ -1,0 +1,60 @@
+<!DOCTYPE HTML>
+<html lang="en">
+  <head>
+    <title>FanScape</title>
+    <meta charset="utf-8">
+    <link rel="stylesheet" type="text/css" href="../../views/css/style.css" media="all">
+    <link rel="stylesheet" type="text/css" href="../../views/css/layout.css" media="all">
+    <script type="text/javascript" src="//use.typekit.net/hto8ggy.js"></script>
+    <script type="text/javascript">try{Typekit.load();}catch(e){}</script>
+  </head>
+  <body>
+
+  <div id="container"></div>
+
+<!--   <div id="title">
+    FanScape
+  </div> -->
+
+  <div id="signIn">
+    <div class="titleWrap">
+      <span id="title">FanScape</span>
+    </div>
+      <br>
+    <!-- <a href="/authorize_user"> -->
+      <div class="instagramSign" onclick="location.href='/authorize_user';" style="cursor: pointer;">
+        <div class="instaStripe" style="background-color: #e11138; border-radius: 6px 0 0 6px;"></div>
+        <div class="instaStripe" style="background-color: #edc130;"></div>
+        <div class="instaStripe" style="background-color: #6cbf93;"></div>
+        <div class="instaStripe" style="background-color: #3e9be5;"></div>
+        <div class="tagLineWrap">
+          <span id="tagLine">Sign in with Instagram</span>
+        </div>
+      </div>
+    <!-- </a> -->
+  </div>
+
+  <script type="text/javascript" src="/node_modules/jquery/dist/jquery.min.js"></script>
+  <script type="text/javascript" src="/views/third-party/Detector.js"></script>
+  <script type="text/javascript" src="/views/third-party/three.min.js"></script>
+  <script type="text/javascript" src="/views/third-party/Tween.js"></script>
+  <script type="text/javascript" src="/views/globe.js"></script>
+  <script type='text/javascript' src='https://cdn.firebase.com/js/client/1.0.15/firebase.js'></script>
+
+  <script type="text/javascript">
+    /////////////////////////////////////////
+    // TODO - figure out a better way to store data and make sure that magnitude is accurate and live
+    // Implement a date picker function
+    // Implement a status bar for the gathering of followers
+    // add authentication for Instagram
+    /////////////////////////////////////////
+
+    var container = document.getElementById( 'container' );  // Where to put the globe?
+    var globe = new DAT.Globe( container );  // Make the globe
+    globe.createPoints();  // Create the geometry
+    globe.animate();  // Begin animation
+  </script>
+
+  </body>
+
+</html>

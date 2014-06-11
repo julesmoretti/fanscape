@@ -1,0 +1,154 @@
+<!DOCTYPE HTML>
+<html lang="en">
+  <head>
+    <title>FanScape</title>
+    <meta charset="utf-8">
+    <link rel="stylesheet" type="text/css" href="../../views/css/style.css" media="all">
+    <link rel="stylesheet" type="text/css" href="../../views/css/layout.css" media="all">
+  </head>
+  <body>
+
+  <div id="container"></div>
+
+  <script type="text/javascript" src="/node_modules/jquery/dist/jquery.min.js"></script>
+  <script type="text/javascript" src="/views/js/jquery.knob.js"></script>
+  <script type="text/javascript" src="/views/third-party/Detector.js"></script>
+  <script type="text/javascript" src="/views/third-party/three.min.js"></script>
+  <script type="text/javascript" src="/views/third-party/Tween.js"></script>
+  <script type="text/javascript" src="/views/globe.js"></script>
+  <script type='text/javascript' src='https://cdn.firebase.com/js/client/1.0.15/firebase.js'></script>
+
+  <div id="toHide">
+    <script type="text/javascript">
+
+      /////////////////////////////////////////
+      // TODO
+      // figure out a better way to store data and make sure that magnitude is accurate and live
+      // Implement a date picker function
+      // Implement a status bar for the gathering of followers
+      // add authentication for Instagram
+      /////////////////////////////////////////
+
+      // Variable to hold data
+      var userName;  // holds the user name on retrieval
+      var cleanSnapshot;  // holds on start a copy of the data on Firebase
+      var geoTaggedFollowersCount = 0;  // keeps a tally on the number of followers that has geotagged data
+      var todayUserData = [];  // from the snapshot retrieves existing data if any
+
+
+      // Loads a globe
+      var container = document.getElementById( 'container' );  // Where to put the globe?
+      var globe = new DAT.Globe( container );  // Make the globe
+      globe.createPoints();  // Create the geometry
+      globe.animate();  // Begin animation
+
+
+      // takes obj Data and filters it down to an array that has an averaged out magnitude
+      var crossRef = function(data, magnitude){
+        var result = [];
+        var obj = {};
+
+        for (var i = 0; i < data.length; i++) {
+          var pair = JSON.stringify([(data[i]),(data[i+1])]);
+
+          if (obj[pair]){
+            obj[pair] = obj[pair] + magnitude;
+          } else {
+            obj[pair] = magnitude;
+          }
+          i++;
+          i++;
+        };
+
+        for(var i in obj){
+          var temp = JSON.parse(i);
+          temp.push(obj[i]);
+          result = result.concat(temp);
+        };
+
+        return result;
+      }
+
+      // start Firebase lookup and initiation if needed
+      var runFirebase = function(){
+        var fa = new Firebase('https://fanscape.firebaseio.com/'+userName+'/geoData/');
+        var fb = new Firebase('https://fanscape.firebaseio.com/');
+
+        // opens a live feed to Firebase and listens for new child + add those live.
+        var goLive = function(){
+          fa.on('child_changed', function(childSnapshot){
+            var followersData = childSnapshot.val();
+            // console.log(followersData, "followers Data");
+            if (followersData.data){
+              for (var i in followersData.data) {
+                var rawData = followersData.data[i];
+              }
+              globe.addData(crossRef(rawData, 0.005), {format: 'magnitude'});
+              globe.createPoints();
+              globe.animate();
+            } else {
+              console.log("No data found for specific query");
+            }
+          });
+        };
+
+        // check for existing data
+        fb.once('value', function(dataSnapshot){
+
+          var fbSnapshot = dataSnapshot;  // extract data from Firebase in the form of a snapshot
+          var cleanSnapshot = fbSnapshot.val();  //converts Firebase snapshot into readable data
+
+          // check snapshot for data
+          if(cleanSnapshot){
+            // check snapshot for existing userName
+            if(cleanSnapshot[userName]){
+              // check snapshot for existing locations
+              if(cleanSnapshot[userName].geoData){
+                //sort through the extracted data and get each followers.
+                for (var i in cleanSnapshot[userName].geoData){
+                  geoTaggedFollowersCount++;  // Keep track of the number of followers with geo tagged data.
+                  if(cleanSnapshot[userName].geoData[i].status){
+                    for (var j in cleanSnapshot[userName].geoData[i].data){
+                      todayUserData = todayUserData.concat(cleanSnapshot[userName].geoData[i].data[j]);
+                    }
+                  }
+                }
+                // take the gathered and ordered data and filter through it to determine the magnitude
+                // then inject it back into the globe
+                globe.addData(crossRef(todayUserData, 0.005), {format: 'magnitude'});
+                globe.createPoints();
+                globe.animate();
+
+              // if no status then that means that the data has not completely downloaded
+              } else {
+                // opens a listening port to Firebase to update data on the globe.
+                goLive();
+              }
+            } else {
+              // opens a listening port to Firebase to update data on the globe.
+              goLive();
+            }
+          } else {
+            // opens a listening port to Firebase to update data on the globe.
+            goLive();
+          }
+        });
+      }
+
+      // reads from the URL the current userName and stores it
+      var urlPath = window.location.href;
+      var urlArray = urlPath.split("=");
+      userName = urlArray[1];
+
+      runFirebase();
+
+
+    $( document ).ready(function() {
+      $( '#toHide' ).remove();
+    });
+    </script>
+  </div>
+
+  </body>
+
+</html>
