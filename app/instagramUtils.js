@@ -11,8 +11,8 @@ var id;
 var profile_picture;
 
 ig.use({
-  client_id: 'a1a66b75bb924ce3b35151247480cbbc',
-  client_secret: '73e163c1cfa14442b9403b5f6adf9a63'
+  client_id: process.env.FANSCAPECLIENTID,
+  client_secret: process.env.FANSCAPECLIENTSECRET
 });
 
 var redirect_uri = 'http://localhost:3000/auth/instagram/callback';
