@@ -77,9 +77,16 @@
 
         // opens a live feed to Firebase and listens for new child + add those live.
         var goLive = function(){
+          // console.log("going Live");
           fa.on('child_changed', function(childSnapshot){
             var followersData = childSnapshot.val();
-            console.log(followersData, "followers Data");
+
+            if(followersData.totalFollowers){
+              if(followersData.totalFollowers === followersData.followersDone ){
+                Firebase.goOffline()
+                // console.log("IT IS ALL DONE YO!!!!!!!");
+              }
+            }
 
             if (followersData.data){
               for (var i in followersData.data) {
@@ -88,17 +95,8 @@
               globe.addData(crossRef(rawData, 0.005), {format: 'magnitude'});
               globe.createPoints();
               globe.animate();
-
-              console.log("pre check");
-              console.log(fa.child('followers').totalFollowers, "total followers");
-
-              if( fa.child('followers').totalFollowers === fa.child('followers').followersDone ){
-                // Firebase.goOffline()
-                console.log("IT IS ALL DONE YO!!!!!!!");
-              }
-            } else {
-              console.log("No data found for specific query");
             }
+
           });
         };
 
