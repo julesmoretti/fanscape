@@ -58,7 +58,7 @@ html {
       .instagramSign {
         border-radius: 6px;
         /*background: #f8f3e7;*/
-        background: rgba(248, 243, 231
+        background: rgba(248, 243, 231, 0.8);
         /*opacity: 0.9;*/
         width: 300;
         height: 44px;
