@@ -61,14 +61,12 @@ html {
       }
 
       #title2 {
-        width: 320px;
-        height: 100px;
         position: fixed;
         font-family: "estilo-regular",sans-serif;
         font-size: 70px;
         color: white;
         opacity: 0.6;
-        text-align: center;
+        padding-left: 16px;
       }
 
       .instagramSign {
