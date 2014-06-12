@@ -63,6 +63,7 @@ html {
         height: 44px;
         margin: 0 10px 0 10px;
         margin-top: 20px;
+        border: 1px solid rgb(145, 145, 145);
       }
 
       .instaStripe {
@@ -83,6 +84,7 @@ html {
         color: #4d473b;
         font-weight: 500;
         margin-left: 26px;
+        text-shadow: 1px 1px 1px #ffffff;
       }
 
 
