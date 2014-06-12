@@ -20,7 +20,6 @@ var redirect_uri = 'http://fanscape.azurewebsites.net/auth/instagram/callback';
 
 var fb = new Firebase('https://fanscape.firebaseio.com/');  // connects to Firebase.
 
-
 // FIRST thing loaded '/'
 exports.loadPage = function(req, res) {
   res.render('../views/partials/globe.ejs');
