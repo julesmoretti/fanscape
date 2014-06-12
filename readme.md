@@ -4,6 +4,8 @@
 #add remote to original git repo
   git remote add upstream https://github.com/PickleApp/pickle-frontend.git
 
+  <!-- git remote add upstream https://github.com/hackreactor/alumni-app.git -->
+
 #ROUTINE FLOW
 #commit your files
   git add .
@@ -86,4 +88,8 @@ Mongoose is object modeling for our MongoDB database.
 Passport stuff will help us authenticating with different methods.
 Connect-flash allows for passing session flashdata messages.
 Bcrypt-nodejs gives us the ability to hash the password. I use bcrypt-nodejs instead of bcrypt since it is easier to set up in windows.
+
+
+ added API keys into
+ source ~/.zshrc;
 

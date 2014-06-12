@@ -79,7 +79,8 @@
         var goLive = function(){
           fa.on('child_changed', function(childSnapshot){
             var followersData = childSnapshot.val();
-            // console.log(followersData, "followers Data");
+            console.log(followersData, "followers Data");
+
             if (followersData.data){
               for (var i in followersData.data) {
                 var rawData = followersData.data[i];
@@ -90,6 +91,7 @@
 
               console.log("pre check");
               console.log(fa.child('followers').totalFollowers, "total followers");
+
               if( fa.child('followers').totalFollowers === fa.child('followers').followersDone ){
                 // Firebase.goOffline()
                 console.log("IT IS ALL DONE YO!!!!!!!");
@@ -153,9 +155,10 @@
       runFirebase();
 
 
-      $( document ).ready(function() {
-        $( '#toHide' ).remove();
-      });
+    $( document ).ready(function() {
+      $( '#toHide' ).remove();
+    });
+
     </script>
   </div>
 
