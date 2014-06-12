@@ -26,7 +26,6 @@
   <div id="toHide">
     <script type="text/javascript">
 
-    console.log("start script");
       /////////////////////////////////////////
       // TODO
       // figure out a better way to store data and make sure that magnitude is accurate and live
@@ -83,13 +82,26 @@
         // opens a live feed to Firebase and listens for new child + add those live.
         var goLive = function(){
           // console.log("going Live");
+          var totalFollowers = 0;
+
+          fa.once('value', function(data){
+            var theData = data.val();
+            if(theData.followers){
+              totalFollowers = theData.followers.totalFollowers;
+              console.log(totalFollowers, "total followers");
+            }
+          });
+
           fa.on('child_changed', function(childSnapshot){
+            // console.log("something happened");
             var followersData = childSnapshot.val();
+            // console.log(followersData, "followersData");
 
             if(followersData.totalFollowers){
-              if(followersData.totalFollowers === followersData.followersDone ){
+              console.log("in there");
+              if(totalFollowers === followersData.followersDone ){
                 Firebase.goOffline()
-                // console.log("IT IS ALL DONE YO!!!!!!!");
+                console.log("Went Offline!");
               }
             }
 
@@ -119,20 +131,22 @@
               if(cleanSnapshot[userName].geoData){
                 //sort through the extracted data and get each followers.
                 for (var i in cleanSnapshot[userName].geoData){
-                  geoTaggedFollowersCount++;  // Keep track of the number of followers with geo tagged data.
                   if(cleanSnapshot[userName].geoData[i].status){
+                    geoTaggedFollowersCount++;  // Keep track of the number of followers with geo tagged data.
+                    fb.child(userName).child('geoData').child('followers').update({'followersDone': (geoTaggedFollowersCount)});
                     for (var j in cleanSnapshot[userName].geoData[i].data){
                       todayUserData = todayUserData.concat(cleanSnapshot[userName].geoData[i].data[j]);
                     }
                   }
                 }
-                console.log("snapshot area!");
+
                 // take the gathered and ordered data and filter through it to determine the magnitude
                 // then inject it back into the globe
                 globe.addData(crossRef(todayUserData, 0.005), {format: 'magnitude'});
                 globe.createPoints();
                 globe.animate();
                 goLive();
+                console.log("gone live");
 
               // if no status then that means that the data has not completely downloaded
               } else {
@@ -157,11 +171,10 @@
 
       runFirebase();
 
-
-    $( document ).ready(function() {
-      $( '#toHide' ).remove();
-    });
-
+      // hides all the script from DOM
+      $( document ).ready(function() {
+        $( '#toHide' ).remove();
+      });
     </script>
   </div>
 

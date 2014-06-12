@@ -37,20 +37,26 @@
   <script type="text/javascript" src="/views/globe.js"></script>
   <script type='text/javascript' src='https://cdn.firebase.com/js/client/1.0.15/firebase.js'></script>
 
-  <script type="text/javascript">
-    /////////////////////////////////////////
-    // TODO - figure out a better way to store data and make sure that magnitude is accurate and live
-    // Implement a date picker function
-    // Implement a status bar for the gathering of followers
-    // add authentication for Instagram
-    /////////////////////////////////////////
+    <div id="toHide">
+      <script type="text/javascript">
+        /////////////////////////////////////////
+        // TODO - figure out a better way to store data and make sure that magnitude is accurate and live
+        // Implement a date picker function
+        // Implement a status bar for the gathering of followers
+        // add authentication for Instagram
+        /////////////////////////////////////////
 
-    var container = document.getElementById( 'container' );  // Where to put the globe?
-    var globe = new DAT.Globe( container );  // Make the globe
-    globe.createPoints();  // Create the geometry
-    globe.animate();  // Begin animation
-  </script>
+        var container = document.getElementById( 'container' );  // Where to put the globe?
+        var globe = new DAT.Globe( container );  // Make the globe
+        globe.createPoints();  // Create the geometry
+        globe.animate();  // Begin animation
 
+        // hides all the script from DOM
+        $( document ).ready(function() {
+          $( '#toHide' ).remove();
+        });
+      </script>
+    </div>
   </body>
 
 </html>

@@ -16,7 +16,8 @@ ig.use({
 });
 
 // var redirect_uri = 'http://localhost:3000/auth/instagram/callback';
-var redirect_uri = 'http://fanscape2.azurewebsites.net/auth/instagram/callback';
+// var redirect_uri = 'http://fanscape2.azurewebsites.net/auth/instagram/callback';
+var redirect_uri = process.env.INSURIREDIRECT ;
 
 var fb = new Firebase('https://fanscape.firebaseio.com/');  // connects to Firebase.
 
@@ -59,6 +60,7 @@ exports.handleauth = function(req, res) {
 exports.fetchAllMedia = function(req, res) {
   // app.post
   res.render('../views/partials/globeb.ejs');
+
   var followers = [];  //stores users followers ID list in array.
   var coordinates = [];  // stores results of image long, lat, mag
   var followerFeeds = [];
@@ -67,16 +69,14 @@ exports.fetchAllMedia = function(req, res) {
   var dataChild;
   var userSnapshot;
 
-  var date = function(){
-    var d = new Date();
-    return d.getUTCFullYear()+"-"+d.getUTCMonth()+"-"+d.getUTCDate();
-    }();
+  // var date = function(){
+  //   var d = new Date();
+  //   return d.getUTCFullYear()+"-"+d.getUTCMonth()+"-"+d.getUTCDate();
+  //   }();
 
   var theUrl = req.url;
   var tempArray = theUrl.split("=");
   userName = tempArray[1];
-  // console.log(userName, "User Name from request //////////");
-  // console.log(id, "id found locally");
 
   // takes a snapshot of the user name data
   fb.child(userName).once('value', function(snapshot) {
@@ -180,7 +180,7 @@ exports.fetchAllMedia = function(req, res) {
       }
       };
 
-    // STEP 6 //
+    // STEP 6 // ++++++ WEIRD ORDER (IF MEDIA Later...) +++++
     var getFollowerMedia = function (follower) {
       console.log("STEP 6 - in the getFollowerMedia");
 
@@ -203,13 +203,21 @@ exports.fetchAllMedia = function(req, res) {
               }
             });
           } else {
-            followersCount++;
-            fb.child(userName).child('geoData').child(follower).update({'status': 'complete'});
-            console.log("extractCoordinates did not find any geo media for - "+ follower);
+            // check's for pagination and repeats the process.
+            if (pagination && pagination.next) {
+              pagination.next(extractCoordinates);
+            } else {
+              console.log("done with pagination of extractCoordinates for - "+ follower);
+              followersCount++;
+              fb.child(userName).child('geoData').child(follower).update({'status': 'complete'});
+              fb.child(userName).child('geoData').child('followers').update({'followersDone': (followersCount)});
+            }
+            console.log("extractCoordinates did not find any geo media on a pagination for - "+ follower);
           }
         } else {
           followersCount++;
           fb.child(userName).child('geoData').child(follower).update({'status': 'complete'});
+          fb.child(userName).child('geoData').child('followers').update({'followersDone': (followersCount)});
           console.log("extractCoordinates had no media to extract for - "+ follower);
         }
       };
