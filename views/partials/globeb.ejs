@@ -20,7 +20,7 @@
   <script type="text/javascript" src="/views/third-party/Detector.js"></script>
   <script type="text/javascript" src="/views/third-party/three.min.js"></script>
   <script type="text/javascript" src="/views/third-party/Tween.js"></script>
-  <script type="text/javascript" src="/views/globe.js"></script>
+  <script type="text/javascript" src="/views/js/globe.js"></script>
   <script type='text/javascript' src='https://cdn.firebase.com/js/client/1.0.15/firebase.js'></script>
 
   <div id="toHide">
@@ -40,6 +40,7 @@
       var geoTaggedFollowersCount = 0;  // keeps a tally on the number of followers that has geotagged data
       var todayUserData = [];  // from the snapshot retrieves existing data if any
 
+      var userGeoData = [];
 
       // Loads a globe
       var container = document.getElementById( 'container' );  // Where to put the globe?
@@ -47,6 +48,12 @@
       globe.createPoints();  // Create the geometry
       globe.animate();  // Begin animation
 
+      var clearScene = function() {
+        var objsToRemove = _.rest(globe.scene.children, 2);
+        _.each(objsToRemove, function( object ) {
+              globe.scene.remove(object);
+        });
+      };
 
       // takes obj Data and filters it down to an array that has an averaged out magnitude
       var crossRef = function(data, magnitude){
@@ -86,20 +93,21 @@
 
           fa.once('value', function(data){
             var theData = data.val();
-            if(theData.followers){
-              totalFollowers = theData.followers.totalFollowers;
-              console.log(totalFollowers, "total followers");
+            if(theData){
+              if(theData.followers){
+                totalFollowers = theData.followers.totalFollowers;
+                console.log(totalFollowers, "total followers");
+              }
             }
           });
 
           fa.on('child_changed', function(childSnapshot){
             // console.log("something happened");
             var followersData = childSnapshot.val();
-            // console.log(followersData, "followersData");
+            console.log(followersData, "followersData");
 
             if(followersData.totalFollowers){
-              console.log("in there");
-              if(totalFollowers === followersData.followersDone ){
+              if(followersData.totalFollowers === followersData.followersDone ){
                 Firebase.goOffline()
                 console.log("Went Offline!");
               }
@@ -107,11 +115,16 @@
 
             if (followersData.data){
               for (var i in followersData.data) {
-                var rawData = followersData.data[i];
+                if(followersData.data[i]){
+                  var rawData = followersData.data[i];
+                  userGeoData = userGeoData.concat(rawData);
+                }
               }
-              globe.addData(crossRef(rawData, 0.005), {format: 'magnitude'});
+              console.log(userGeoData, "result array");
+              clearScene();
+              globe.addData(crossRef(userGeoData, 0.005), {format: 'magnitude'});
               globe.createPoints();
-              globe.animate();
+              // globe.animate();
             }
 
           });
@@ -144,7 +157,7 @@
                 // then inject it back into the globe
                 globe.addData(crossRef(todayUserData, 0.005), {format: 'magnitude'});
                 globe.createPoints();
-                globe.animate();
+                // globe.animate();
                 goLive();
                 console.log("gone live");
 
@@ -178,6 +191,7 @@
     </script>
   </div>
 
+  <script type="text/javascript" src="../../views/js/underscore.js"></script>
   </body>
 
 </html>
