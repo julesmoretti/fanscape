@@ -222,7 +222,7 @@ exports.fetchAllMedia = function(req, res) {
         }
       };
 
-      ig.user_media_recent(follower, extractCoordinates);
+      ig.user_media_recent(follower.toString(), extractCoordinates);
 
       };
 
