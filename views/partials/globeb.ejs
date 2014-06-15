@@ -3,6 +3,97 @@
   <head>
     <title>FanScape - Beta</title>
     <meta charset="utf-8">
+        <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.9.0/jquery.min.js"></script>
+        <!--[if IE]><script type="text/javascript" src="../../excanvas.js"></script><![endif]-->
+        <script src="../../views/js/jquery.knob.js"></script>
+        <script>
+            $(function($) {
+
+                $(".knob").knob({
+                    change : function (value) {
+                        //console.log("change : " + value);
+                    },
+                    release : function (value) {
+                        //console.log(this.$.attr('value'));
+                        console.log("release : " + value);
+                    },
+                    cancel : function () {
+                        console.log("cancel : ", this);
+                    },
+                    /*format : function (value) {
+                        return value + '%';
+                    },*/
+                    draw : function () {
+
+                        // "tron" case
+                        if(this.$.data('skin') == 'tron') {
+
+                            this.cursorExt = 0.3;
+
+                            var a = this.arc(this.cv)  // Arc
+                                , pa                   // Previous arc
+                                , r = 1;
+
+                            this.g.lineWidth = this.lineWidth;
+
+                            if (this.o.displayPrevious) {
+                                pa = this.arc(this.v);
+                                this.g.beginPath();
+                                this.g.strokeStyle = this.pColor;
+                                this.g.arc(this.xy, this.xy, this.radius - this.lineWidth, pa.s, pa.e, pa.d);
+                                this.g.stroke();
+                            }
+
+                            this.g.beginPath();
+                            this.g.strokeStyle = r ? this.o.fgColor : this.fgColor ;
+                            this.g.arc(this.xy, this.xy, this.radius - this.lineWidth, a.s, a.e, a.d);
+                            this.g.stroke();
+
+                            this.g.lineWidth = 2;
+                            this.g.beginPath();
+                            this.g.strokeStyle = this.o.fgColor;
+                            this.g.arc( this.xy, this.xy, this.radius - this.lineWidth + 1 + this.lineWidth * 2 / 3, 0, 2 * Math.PI, false);
+                            this.g.stroke();
+
+                           $(this.i).val(this.cv + '%') //Puts a percent after values
+
+                            return false;
+
+
+                        }
+                    }
+                });
+
+                // Example of infinite knob, iPod click wheel
+                var v, up=0,down=0,i=0
+                    ,$idir = $("div.idir")
+                    ,$ival = $("div.ival")
+                    ,incr = function() { i++; $idir.show().html("+").fadeOut(); $ival.html(i); }
+                    ,decr = function() { i--; $idir.show().html("-").fadeOut(); $ival.html(i); };
+                $("input.infinite").knob(
+                                    {
+                                    min : 0
+                                    , max : 255
+                                    , stopper : false
+                                    , change : function () {
+                                                    if(v > this.cv){
+                                                        if(up){
+                                                            decr();
+                                                            up=0;
+                                                        }else{up=1;down=0;}
+                                                    } else {
+                                                        if(v < this.cv){
+                                                            if(down){
+                                                                incr();
+                                                                down=0;
+                                                            }else{down=1;up=0;}
+                                                        }
+                                                    }
+                                                    v = this.cv;
+                                                }
+                                    });
+            });
+        </script>
     <link rel="stylesheet" type="text/css" href="../../views/css/style.css" media="all">
     <link rel="stylesheet" type="text/css" href="../../views/css/layout.css" media="all">
     <script type="text/javascript" src="//use.typekit.net/hto8ggy.js"></script>
@@ -10,13 +101,39 @@
   </head>
   <body>
 
+<!-- <div id="logout" href="https://instagram.com/accounts/logout">
+  <a href="https://instagram.com/accounts/logout" target="_blank">LOG OUT</a>
+</div> -->
+
+<div id="logout" onclick="location.href='/authorize_user';" style="cursor: pointer;">
+  <div class="LOinstaStripe" style="background-color: #e11138; border-radius: 4px 0 0 4px; width: 5px;"></div>
+  <div class="LOinstaStripe" style="background-color: #edc130;"></div>
+  <div class="LOinstaStripe" style="background-color: #6cbf93;"></div>
+  <div class="LOinstaStripe" style="background-color: #3e9be5; border-radius: 0 2px 2px 0;"></div>
+  <div class="LOtagLineWrap">
+    <span id="LOtagLine">Sign Out</span>
+  </div>
+</div>
+
   <div id="container"></div>
-    <div class="titleWrap2">
-      <span id="title2">FanScape</span>
+  <div class="titleWrap2">
+    <span id="title2">FanScape</span>
+  </div>
+
+  <div id="userProfile">
+    <div id='follower'>
+    <!-- readonly="false" -->
+      <input class="knob" data-thickness=".1" data-skin="tron" data-width="120" data-min="0" data-max="100" data-displayPrevious=false data-angleOffset=-125 data-angleArc=250 data-fgColor="rgba(255, 255, 255, 0.5)" value="0">
+      <div id="followersInfo">
+        <span id="followerDoneCount">#</span><span> followers done</span>
+      </div>
     </div>
 
-  <script type="text/javascript" src="/node_modules/jquery/dist/jquery.min.js"></script>
-  <script type="text/javascript" src="/views/js/jquery.knob.js"></script>
+    <div id='user'>
+      <img src="/views/img/profile_blank_gray.jpg"><span>user name</span>
+    </div>
+  </div>
+
   <script type="text/javascript" src="/views/third-party/Detector.js"></script>
   <script type="text/javascript" src="/views/third-party/three.min.js"></script>
   <script type="text/javascript" src="/views/third-party/Tween.js"></script>
@@ -40,8 +157,6 @@
       var geoTaggedFollowersCount = 0;  // keeps a tally on the number of followers that has geotagged data
       var todayUserData = [];  // from the snapshot retrieves existing data if any
 
-      var userGeoData = [];
-
       // Loads a globe
       var container = document.getElementById( 'container' );  // Where to put the globe?
       var globe = new DAT.Globe( container );  // Make the globe
@@ -64,7 +179,9 @@
           var pair = JSON.stringify([(data[i]),(data[i+1])]);
 
           if (obj[pair]){
-            obj[pair] = obj[pair] + magnitude;
+            if(obj[pair] < 1.5 ){
+              obj[pair] = obj[pair] + magnitude;
+            }
           } else {
             obj[pair] = magnitude;
           }
@@ -83,20 +200,49 @@
 
       // start Firebase lookup and initiation if needed
       var runFirebase = function(){
-        var fa = new Firebase('https://fanscape.firebaseio.com/'+userName+'/geoData/');
+        var fa = new Firebase('https://fanscape.firebaseio.com/'+userName);
         var fb = new Firebase('https://fanscape.firebaseio.com/');
 
         // opens a live feed to Firebase and listens for new child + add those live.
         var goLive = function(){
           // console.log("going Live");
-          var totalFollowers = 0;
+          var totalFollowers;
+          var followersDone;
+          var percenteage;
 
           fa.once('value', function(data){
             var theData = data.val();
             if(theData){
-              if(theData.followers){
-                totalFollowers = theData.followers.totalFollowers;
-                console.log(totalFollowers, "total followers");
+              if(theData.geoData){
+                if(theData.geoData.followers){
+                  if(theData.geoData.followers.totalFollowers){
+                    totalFollowers = theData.geoData.followers.totalFollowers;
+
+                    $("#followerDoneCount").text(totalFollowers);
+                    console.log(totalFollowers, " total followers");
+
+                    if(theData.geoData.followers.followersDone){
+                      followersDone = theData.geoData.followers.followersDone
+                      console.log(followersDone, " followers done");
+
+                      percent = (followersDone / totalFollowers) * 100;
+
+                      $('.knob').val(percent).trigger('change');
+
+                    }
+                  }
+                }
+              }
+
+              if(theData.profile_picture){
+                // push profile picture to image placeholder
+                console.log( theData.profile_picture , "profile picture");
+                $("#user img").attr("src", theData.profile_picture);
+              }
+              if(theData["name"]){
+                // push name to place holder
+                console.log(theData["name"], "user name");
+                $("#user span").text(theData["name"]);
               }
             }
           });
@@ -104,29 +250,49 @@
           fa.on('child_changed', function(childSnapshot){
             // console.log("something happened");
             var followersData = childSnapshot.val();
-            console.log(followersData, "followersData");
+            // console.log(followersData, "followersData");
 
-            if(followersData.totalFollowers){
+            // check for total followers info if not already acquired
+            if(followersData.followers){
+              if(followersData.followers.totalFollowers){
+                if(followersData.followers.totalFollowers !== 0){
+                  totalFollowers = followersData.followers.totalFollowers;
+                }
+              }
+            }
+
+            // check for new followers Done update if total followers pre-acquired
+            if(followersData.followers && totalFollowers){
+              if(followersData.followers.followersDone){
+                followersDone = followersData.followers.followersDone;
+                $("#followerDoneCount").text(followersDone);
+                percent = (followersDone / totalFollowers) * 100;
+                $('.knob').val(percent).trigger('change');
+              }
+            }
+
+            // extract data of package received and push them to globe.
+            if (followersData){
+              for(var i in followersData){
+                if(followersData[i].data){
+                  for(var j in followersData[i].data){
+                    var rawData = followersData[i].data[j];
+                    todayUserData = todayUserData.concat(rawData);
+                  }
+                  clearScene();
+                  globe.addData(crossRef(todayUserData, 0.005), {format: 'magnitude'});
+                  globe.createPoints();
+                }
+              }
+            }
+
+            // Check for last followers to close connection
+            if(followersData.totalFollowers && followersData.followersDone){
               if(followersData.totalFollowers === followersData.followersDone ){
                 Firebase.goOffline()
                 console.log("Went Offline!");
               }
             }
-
-            if (followersData.data){
-              for (var i in followersData.data) {
-                if(followersData.data[i]){
-                  var rawData = followersData.data[i];
-                  userGeoData = userGeoData.concat(rawData);
-                }
-              }
-              console.log(userGeoData, "result array");
-              clearScene();
-              globe.addData(crossRef(userGeoData, 0.005), {format: 'magnitude'});
-              globe.createPoints();
-              // globe.animate();
-            }
-
           });
         };
 
@@ -140,6 +306,16 @@
           if(cleanSnapshot){
             // check snapshot for existing userName
             if(cleanSnapshot[userName]){
+              // set profile picture if exist
+              if (cleanSnapshot.profile_picture){
+                // console.log("set html link of img on start");
+                $("#user img").attr("src", cleanSnapshot.profile_picture);
+              }
+              // set profile name if exist
+              if(cleanSnapshot.name){
+                // console.log("set user name text on start");
+                $("#user span").text(cleanSnapshot.name);
+              }
               // check snapshot for existing locations
               if(cleanSnapshot[userName].geoData){
                 //sort through the extracted data and get each followers.
@@ -175,6 +351,15 @@
             goLive();
           }
         });
+
+        // setInterval(function(){
+        //   clearScene();
+        //   globe.addData(crossRef(userGeoData, 0.005), {format: 'magnitude'});
+        //   globe.createPoints();
+        //   // globe.animate();
+        //   // alert("Hello")
+        // },3000);
+
       }
 
       // reads from the URL the current userName and stores it
