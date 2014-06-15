@@ -1,25 +1,21 @@
 // app/instagramUtils.js
-var ig              = require('instagram-node').instagram();
-var _               = require('underscore');
-var Firebase        = require('firebase');
-
-var queryCode;
-var token;
-var full_name;
-var userName;
-var id;
-var profile_picture;
+var Firebase        = require('firebase'),
+    fb              = new Firebase('https://fanscape.firebaseio.com/'),  // connects to Firebase.
+    ig              = require('instagram-node').instagram(),
+    _               = require('underscore'),
+    redirect_uri    = process.env.INSURIREDIRECT ,
+    profile_picture,
+    full_name,
+    userName,
+    queryCode,
+    token,
+    id;
 
 ig.use({
   client_id: process.env.FANSCAPECLIENTID,
   client_secret: process.env.FANSCAPECLIENTSECRET
-});
+  });
 
-// var redirect_uri = 'http://localhost:3000/auth/instagram/callback';
-// var redirect_uri = 'http://fanscape2.azurewebsites.net/auth/instagram/callback';
-var redirect_uri = process.env.INSURIREDIRECT ;
-
-var fb = new Firebase('https://fanscape.firebaseio.com/');  // connects to Firebase.
 
 // FIRST thing loaded '/'
 exports.loadPage = function(req, res) {
@@ -29,9 +25,9 @@ exports.loadPage = function(req, res) {
 // SECOND href to Instagram api for access token
 exports.authorize_user = function(req, res) {
   res.redirect(ig.get_authorization_url(redirect_uri, { scope: ['likes+comments'], state: 'a state' }));
-};
+  };
 
-// THIRD handle the response from Instagram
+// THIRD handle the response from Instagram and store
 exports.handleauth = function(req, res) {
   ig.authorize_user(req.query.code, redirect_uri, function(err, result) {
     if (err) {
@@ -54,25 +50,22 @@ exports.handleauth = function(req, res) {
       res.redirect('/globe?user='+userName);
     }
   });
-};
+  };
 
 // FOURTH redirected from handleauth with userName clipped to it.
 exports.fetchAllMedia = function(req, res) {
   // app.post
   res.render('../views/partials/globe.ejs');
 
-  var followers = [];  //stores users followers ID list in array.
-  var coordinates = [];  // stores results of image long, lat, mag
-  var followerFeeds = [];
-  var followersMaxCount;
-  var followersCount = 0;
-  var dataChild;
-  var userSnapshot;
+  // user variables
+  var followers = [],  //stores users followers ID list in array.
+      coordinates = [],  // stores results of image long, lat, mag
+      followerFeeds = [],
+      followersCount = 0,
+      followersMaxCount,
+      dataChild,
+      userSnapshot;
 
-  // var date = function(){
-  //   var d = new Date();
-  //   return d.getUTCFullYear()+"-"+d.getUTCMonth()+"-"+d.getUTCDate();
-  //   }();
 
   var theUrl = req.url;
   var tempArray = theUrl.split("=");
