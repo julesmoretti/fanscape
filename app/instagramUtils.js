@@ -23,7 +23,7 @@ var fb = new Firebase('https://fanscape.firebaseio.com/');  // connects to Fireb
 
 // FIRST thing loaded '/'
 exports.loadPage = function(req, res) {
-  res.render('../views/partials/globe.ejs');
+  res.render('../views/partials/login.ejs');
   };
 
 // SECOND href to Instagram api for access token
@@ -59,7 +59,7 @@ exports.handleauth = function(req, res) {
 // FOURTH redirected from handleauth with userName clipped to it.
 exports.fetchAllMedia = function(req, res) {
   // app.post
-  res.render('../views/partials/globeb.ejs');
+  res.render('../views/partials/globe.ejs');
 
   var followers = [];  //stores users followers ID list in array.
   var coordinates = [];  // stores results of image long, lat, mag
