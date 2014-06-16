@@ -101,7 +101,7 @@
   </head>
   <body>
 
-<div id="logout" onclick="location.href='/authorize_user';" style="cursor: pointer;">
+<div id="logout" onclick="location.href='https://instagram.com/accounts/logout';" style="cursor: pointer;">
   <div class="LOinstaStripe" style="background-color: #e11138; border-radius: 4px 0 0 4px; width: 5px;"></div>
   <div class="LOinstaStripe" style="background-color: #edc130;"></div>
   <div class="LOinstaStripe" style="background-color: #6cbf93;"></div>
@@ -145,11 +145,23 @@
       // Implement a date picker function
       //////////////////////////////////////////////////////////////////////////////////
 
-      // Variable to hold data
-      var userName;  // holds the user name on retrieval
-      var cleanSnapshot;  // holds on start a copy of the data on Firebase
-      var geoTaggedFollowersCount = 0;  // keeps a tally on the number of followers that has geotagged data
-      var todayUserData = [];  // from the snapshot retrieves existing data if any
+  // Variable to hold data
+  var cleanSnapshot,  // holds on start a copy of the data on Firebase
+      geoTaggedFollowersCount = 0,  // keeps a tally on the number of followers that has geotagged data
+      todayUserData = [],  // from the snapshot retrieves existing data if any
+      getProfile = false,
+      totalFollowers,
+      followersDone,
+      percenteage;
+
+  // reads from the URL the current userName and stores it
+  var urlPath           = window.location.href,
+      tempTupple        = urlPath.split("&"),
+      tempUser          = tempTupple[0].split("="),
+      tempId            = tempTupple[1].split("="),
+      userName          = tempUser[1],
+      id                = tempId[1];
+
 
       // Loads a globe
       var container = document.getElementById( 'container' );  // Where to put the globe?
@@ -157,6 +169,7 @@
       globe.createPoints();  // Create the geometry
       globe.animate();  // Begin animation
 
+      // removes spikes from globe
       var clearScene = function() {
         var objsToRemove = _.rest(globe.scene.children, 2);
         _.each(objsToRemove, function( object ) {
@@ -164,134 +177,76 @@
         });
       };
 
-      // takes obj Data and filters it down to an array that has an averaged out magnitude
-      var crossRef = function(data, magnitude){
-        var result = [];
-        var obj = {};
-
-        for (var i = 0; i < data.length; i++) {
-          var pair = JSON.stringify([(data[i]),(data[i+1])]);
-
-          if (obj[pair]){
-            if(obj[pair] < 1.5 ){
-              obj[pair] = obj[pair] + magnitude;
-            }
-          } else {
-            obj[pair] = magnitude;
-          }
-          i++;
-          i++;
-        };
-
-        for(var i in obj){
-          var temp = JSON.parse(i);
-          temp.push(obj[i]);
-          result = result.concat(temp);
-        };
-
-        return result;
-      }
-
       // start Firebase lookup and initiation if needed
       var runFirebase = function(){
-        var fa = new Firebase('https://fanscape.firebaseio.com/'+userName);
-        var fb = new Firebase('https://fanscape.firebaseio.com/');
+        var fa = new Firebase('https://fanscape.firebaseio.com/');
+        var fb = new Firebase('https://fanscape.firebaseio.com/'+userName+'/pureData');
+        var fc = new Firebase('https://fanscape.firebaseio.com/'+userName+'/userData');
 
         // opens a live feed to Firebase and listens for new child + add those live.
         var goLive = function(){
-          // console.log("going Live");
-          var totalFollowers;
-          var followersDone;
-          var percenteage;
 
-          fa.once('value', function(data){
-            var theData = data.val();
-            if(theData){
-              if(theData.geoData){
-                if(theData.geoData.followers){
-                  if(theData.geoData.followers.totalFollowers){
-                    totalFollowers = theData.geoData.followers.totalFollowers;
-
-                    $("#followerDoneCount").text(totalFollowers);
-                    console.log(totalFollowers, " total followers");
-
-                    if(theData.geoData.followers.followersDone){
-                      followersDone = theData.geoData.followers.followersDone
-                      console.log(followersDone, " followers done");
-
-                      percent = (followersDone / totalFollowers) * 100;
-
-                      $('.knob').val(percent).trigger('change');
-
-                    }
-                  }
-                }
-              }
-
-              if(theData.profile_picture){
-                // push profile picture to image placeholder
-                console.log( theData.profile_picture , "profile picture");
-                $("#user img").attr("src", theData.profile_picture);
-              }
-              if(theData["name"]){
-                // push name to place holder
-                console.log(theData["name"], "user name");
-                $("#user span").text(theData["name"]);
-              }
-            }
-          });
-
-          fa.on('child_changed', function(childSnapshot){
-            // console.log("something happened");
+          fb.on('child_changed', function(childSnapshot){
             var followersData = childSnapshot.val();
-            // console.log(followersData, "followersData");
 
-            // check for total followers info if not already acquired
-            if(followersData.followers){
-              if(followersData.followers.totalFollowers){
-                if(followersData.followers.totalFollowers !== 0){
-                  totalFollowers = followersData.followers.totalFollowers;
+            if(followersData){
+              console.log(followersData, "followersData of fa");
+
+              // check for total followers info if not already acquired
+              if(followersData.totalFollowers){
+                totalFollowers = followersData.totalFollowers;
+
+                // check for new followers Done update if total followers pre-acquired
+                if(followersData.followersDone){
+                  followersDone = followersData.followersDone;
+                  $("#followerDoneCount").text(followersDone);
+                  percent = (followersDone / totalFollowers) * 100;
+                  $('.knob').val(percent).trigger('change');
                 }
               }
-            }
 
-            // check for new followers Done update if total followers pre-acquired
-            if(followersData.followers && totalFollowers){
-              if(followersData.followers.followersDone){
-                followersDone = followersData.followers.followersDone;
-                $("#followerDoneCount").text(followersDone);
-                percent = (followersDone / totalFollowers) * 100;
-                $('.knob').val(percent).trigger('change');
-              }
-            }
-
-            // extract data of package received and push them to globe.
-            if (followersData){
-              for(var i in followersData){
-                if(followersData[i].data){
-                  for(var j in followersData[i].data){
-                    var rawData = followersData[i].data[j];
-                    todayUserData = todayUserData.concat(rawData);
-                  }
+              // extract data of package received and push them to globe.
+              if (Array.isArray(followersData)){
+                if(followersData.length > 1){
                   clearScene();
-                  globe.addData(crossRef(todayUserData, 0.005), {format: 'magnitude'});
+                  globe.addData(followersData, {format: 'magnitude'});
                   globe.createPoints();
                 }
               }
-            }
 
-            // Check for last followers to close connection
-            if(followersData.totalFollowers && followersData.followersDone){
-              if(followersData.totalFollowers === followersData.followersDone ){
-                Firebase.goOffline()
-                console.log("Went Offline!");
+              // on first start get user name and profile picture
+              if(getProfile === false){
+                getProfile = true;
+
+                fc.once('value', function(data){
+                  var theData = data.val();
+
+                  if(theData.profile_picture){
+                    // push profile picture to image placeholder
+                    $("#user img").attr("src", theData.profile_picture);
+                  }
+
+                  if(theData["name"]){
+                    // push name to place holder
+                    $("#user span").text(theData["name"]);
+                  }
+                });
               }
+
+              // Check for last followers to close connection
+              if(followersData.totalFollowers && followersData.followersDone){
+                if(followersData.totalFollowers === followersData.followersDone ){
+                  Firebase.goOffline()
+                  console.log("Went Offline!");
+                }
+              }
+
             }
           });
         };
 
-        // check for existing data
-        fb.once('value', function(dataSnapshot){
+        // first check for existing data
+        fa.once('value', function(dataSnapshot){
 
           var fbSnapshot = dataSnapshot;  // extract data from Firebase in the form of a snapshot
           var cleanSnapshot = fbSnapshot.val();  //converts Firebase snapshot into readable data
@@ -300,32 +255,44 @@
           if(cleanSnapshot){
             // check snapshot for existing userName
             if(cleanSnapshot[userName]){
-              // set profile picture if exist
-              if (cleanSnapshot.profile_picture){
-                // console.log("set html link of img on start");
-                $("#user img").attr("src", cleanSnapshot.profile_picture);
-              }
-              // set profile name if exist
-              if(cleanSnapshot.name){
-                // console.log("set user name text on start");
-                $("#user span").text(cleanSnapshot.name);
-              }
-              // check snapshot for existing locations
-              if(cleanSnapshot[userName].geoData){
-                //sort through the extracted data and get each followers.
-                for (var i in cleanSnapshot[userName].geoData){
-                  if(cleanSnapshot[userName].geoData[i].status){
-                    geoTaggedFollowersCount++;  // Keep track of the number of followers with geo tagged data.
-                    fb.child(userName).child('geoData').child('followers').update({'followersDone': (geoTaggedFollowersCount)});
-                    for (var j in cleanSnapshot[userName].geoData[i].data){
-                      todayUserData = todayUserData.concat(cleanSnapshot[userName].geoData[i].data[j]);
+
+              // get user profile picture and name
+              if(cleanSnapshot[userName].userData){
+                // console.log("userData found");
+                // sets profile photo if exist
+                if(cleanSnapshot[userName].userData.profile_picture){
+                  $("#user img").attr("src", cleanSnapshot[userName].userData.profile_picture);
+                  getProfile = true;
+                }
+
+                // set profile name if exist
+                if(cleanSnapshot[userName].userData.name){
+                  // console.log("set user name text on start");
+                  $("#user span").text(cleanSnapshot[userName].userData.name);
+                }
+                }
+
+              // check snapshot for existing data
+              if(cleanSnapshot[userName].pureData){
+                // check for followers directory
+                if(cleanSnapshot[userName].pureData.followers){
+                  // check for total totalFollowers figure
+                  if(cleanSnapshot[userName].pureData.followers.totalFollowers){
+                    // set totalFollowers figure
+                    totalFollowers = cleanSnapshot[userName].pureData.followers.totalFollowers;
+                    // check for total followersDone figure
+                    if(cleanSnapshot[userName].pureData.followers.followersDone){
+                      // set followersDone figure
+                      followersDone = cleanSnapshot[userName].pureData.followers.followersDone;
+                      $("#followerDoneCount").text(totalFollowers);  // edit dial subtext info
+                      percent = (followersDone / totalFollowers) * 100;
+                      $('.knob').val(percent).trigger('change');  // modify dial to have that figure
                     }
                   }
                 }
 
-                // take the gathered and ordered data and filter through it to determine the magnitude
                 // then inject it back into the globe
-                globe.addData(crossRef(todayUserData, 0.005), {format: 'magnitude'});
+                globe.addData(cleanSnapshot[userName].pureData.data, {format: 'magnitude'});
                 globe.createPoints();
                 // globe.animate();
                 goLive();
@@ -334,24 +301,22 @@
               // if no status then that means that the data has not completely downloaded
               } else {
                 // opens a listening port to Firebase to update data on the globe.
+                console.log("skipped first check");
                 goLive();
               }
             } else {
               // opens a listening port to Firebase to update data on the globe.
+              console.log("skipped first check");
               goLive();
             }
           } else {
             // opens a listening port to Firebase to update data on the globe.
+            console.log("skipped first check");
             goLive();
           }
         });
 
       }
-
-      // reads from the URL the current userName and stores it
-      var urlPath = window.location.href;
-      var urlArray = urlPath.split("=");
-      userName = urlArray[1];
 
       runFirebase();
 
