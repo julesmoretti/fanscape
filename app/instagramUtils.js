@@ -236,7 +236,7 @@ exports.fetchAllMedia = function(req, res) {
         // console.log("extractCoordinates had no media to extract for - "+ follower);
       }
     };
-
+    console.log("in here");
     // gets media information for specific follower
     ig.user_media_recent(follower.toString(), extractCoordinates);
 
