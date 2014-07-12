@@ -1,15 +1,19 @@
 <img src="https://m1.behance.net/rendition/modules/119960595/hd/e6fffbaa77f46ab67a5ce8701a8dac29.png" width=100% alt="dust mite">
 FanScape showcases one's follower collection of Geo-Tagged photos on a map by popularity.
 
-[(SERVER) - Digital Ocean Droplet](#server-digital-ocean-droplet)
-:   [Setting up server side gitHub workflow](#setting-up-server-side-github-workflow)
-[Creating a repo directory on the server](#creating-a-repo-directory-on-the-server)
-    [Creating a hook to automatically deploy from server to server www directory](#creating-a-hook-to-automatically-deploy-from-server-to-server-www-directory)
-    [Local machine set up to push to the server](#local-machine-set-up-to-push-to-the-server)
-    [Server side dependency installation](#server-side-dependency-installation)
-    [Server side environment variables](#server-side-environment-variables)
-    [HTTP server addressing](#http-server-addressing)
-    [Some additional setup files…](#some-additional-setup-files)
+ 1. [(SERVER) - Digital Ocean Droplet](#server-digital-ocean-droplet)
+ - [Setting up server side gitHub workflow](#setting-up-server-side-github-workflow)
+ - [Creating a repo directory on the server](#creating-a-repo-directory-on-the-server)
+ - [Creating a hook to automatically deploy from server to server www directory](#creating-a-hook-to-automatically-deploy-from-server-to-server-www-directory)
+ - [Local machine set up to push to the server](#local-machine-set-up-to-push-to-the-server)
+ - [Server side dependency installation](#server-side-dependency-installation)
+ - [Server side environment variables](#server-side-environment-variables)
+ - [HTTP server addressing](#http-server-addressing)
+
+ - [Some additional setup files…](#some-additional-setup-files)
+ 1. [DNS Address Redirection](#dns-address-redirection)
+ - [Finding your DNS addresses](#finding-your-dns-addresses)
+ - [Applying your DNS to your domain](#applying-your-dns-to-your-domain)
 
 #**(SERVER)** - Digital Ocean Droplet
 Digital Ocean is your phisical server host, that you can set up to run simultaneously to run your express server, databases and multiple websites all in one droplet!
@@ -60,7 +64,7 @@ your nor editing the file **post-receive**
 #!/bin/sh
 git --work-tree=/var/www/fanscape.io --git-dir=/var/repo/fanscape.git checkout -f
 ```
-Once you are done press **'control-d'** to save. Then the following command sets up the correct permissions.
+Once you are done press <kbd>control</kbd><kbd>d</kbd> to save. Then the following command sets up the correct permissions.
 ```
 chmod +x post-receive
 ```
@@ -120,7 +124,7 @@ FANSCAPECLIENTSECRET=abc123efg456hij789klm...
 INSURIREDIRECT='http://somecallback/auth/instagram/callback'
 PORT=1234
 ```
-Once you are done press **esc** key and **shift + z** twice to get back out of the file.
+Once you are done press <kbd>esc</kbd> key and <kbd>shift</kbd> + <kbd>z</kbd> twice to get back out of the file.
 
 Once you have done so reinitiate the file by running:
 ```
@@ -166,7 +170,7 @@ Set up a domain.
 ```
 cd /etc/nginx/sites-available/
 ```
-Then in the directory you will see using the **ls** command a default file. Copy it and rename in the same directory but as **fanscape.io** using:
+Then in the directory you will see using the `ls` command a default file. Copy it and rename in the same directory but as **fanscape.io** using:
 ```
 cp -i default fanscape.io
 ```
@@ -174,7 +178,7 @@ Then edit the file using:
 ```
 vi fanscape.io
 ```
-Once in there hit the **i** key to insert text or prior to doing so you can press twice **d** key to delete row, and **u** to undo. And make sure the file looks like this:
+Once in there hit the <kbd>i</kbd> key to insert text or prior to doing so you can press twice <kbd>d</kbd> key to delete row, and <kbd>u</kbd> to undo. And make sure the file looks like this:
 ```
 # You may add here your
 # server {
@@ -335,5 +339,32 @@ case "$1" in
     ;;
 esac
 ```
+
+---
+
+
+#DNS Address Redirection
+##Finding your DNS addresses
+Log into **digitalocean.com** and click on your droplet. And then from the left menu **DNS**. At the top of the page click on **add domain**.
+
+Fill in your domain name in this case **fanscape.io** and paste the droplets server **IP** into it also.
+
+Then click on the magnifying glass next to your listed domain and copy the **DNS** addresses listed, in our case.
+```
+ns1.digitalocean.com
+ns2.digitalocean.com
+ns3.digitalocean.com
+```
+##Applying your DNS to your domain
+From your domain provider. In this case Gandi.net. Click on the domain name you desire to alter. And bellow **Name Servers** select **Modify servers**.
+
+Once in there paster the DNS address, in my case:
+
+```
+ns1.digitalocean.com
+ns2.digitalocean.com
+ns3.digitalocean.com
+```
+Now give it 3 hours for the domains to point to your servers and you should be live.
 
 ---
