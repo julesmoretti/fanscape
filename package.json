@@ -3,6 +3,14 @@
   "version": "0.0.1",
   "description": "Analytic tool that displays your followers photos on a map",
   "main": "server.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "nodejs server.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/julesmoretti/fanscape"
+  },
   "dependencies": {
     "body-parser": "^1.2.0",
     "ejs": "^1.0.0",
@@ -15,14 +23,16 @@
     "underscore": "^1.6.0"
   },
   "devDependencies": {},
-  "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1",
-    "start": "node server.js"
-  },
-  "repository": {
-    "type": "git",
-    "url": "https://github.com/julesmoretti/beta"
-  },
+  "keywords": [
+    "node",
+    "express",
+    "firebase",
+    "instagram-node",
+    "instagram"
+  ],
   "author": "Jules Moretti",
-  "license": "ISC"
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/julesmoretti/fanscape/issues"
+  }
 }

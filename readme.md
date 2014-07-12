@@ -1,7 +1,15 @@
 <img src="https://m1.behance.net/rendition/modules/119960595/hd/e6fffbaa77f46ab67a5ce8701a8dac29.png" width=100% alt="dust mite">
 FanScape showcases one's follower collection of Geo-Tagged photos on a map by popularity.
 
-[TOC]
+[(SERVER) - Digital Ocean Droplet](#server-digital-ocean-droplet)
+:   [Setting up server side gitHub workflow](#setting-up-server-side-github-workflow)
+[Creating a repo directory on the server](#creating-a-repo-directory-on-the-server)
+    [Creating a hook to automatically deploy from server to server www directory](#creating-a-hook-to-automatically-deploy-from-server-to-server-www-directory)
+    [Local machine set up to push to the server](#local-machine-set-up-to-push-to-the-server)
+    [Server side dependency installation](#server-side-dependency-installation)
+    [Server side environment variables](#server-side-environment-variables)
+    [HTTP server addressing](#http-server-addressing)
+    [Some additional setup files…](#some-additional-setup-files)
 
 #**(SERVER)** - Digital Ocean Droplet
 Digital Ocean is your phisical server host, that you can set up to run simultaneously to run your express server, databases and multiple websites all in one droplet!
