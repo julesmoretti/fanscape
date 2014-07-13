@@ -16,7 +16,7 @@ app.use(bodyParser.urlencoded({
   extended: true
 })); // get information from html forms
 app.set('view engine', 'ejs'); // set up ejs for templating
-app.use(favicon('/views/img/favicon.ico'));
+app.use(favicon('./views/img/favicon.ico'));
 
 console.log(__dirname);
 
