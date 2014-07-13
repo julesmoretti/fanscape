@@ -2,6 +2,7 @@
 FanScape showcases one's follower collection of Geo-Tagged photos on a map by popularity.
 
  1. [(SERVER) - Digital Ocean Droplet](#server-digital-ocean-droplet)
+ - [Log in and changing password](#log-in-and-changing-password)
  - [Setting up server side gitHub workflow](#setting-up-server-side-github-workflow)
  - [Creating a repo directory on the server](#creating-a-repo-directory-on-the-server)
  - [Creating a hook to automatically deploy from server to server www directory](#creating-a-hook-to-automatically-deploy-from-server-to-server-www-directory)
@@ -9,7 +10,8 @@ FanScape showcases one's follower collection of Geo-Tagged photos on a map by po
  - [Server side dependency installation](#server-side-dependency-installation)
  - [Server side environment variables](#server-side-environment-variables)
  - [HTTP server addressing](#http-server-addressing)
-
+ - [Getting Node.JS to keep on going](#getting-node.js-to-keep-on-going)
+ 
  - [Some additional setup files…](#some-additional-setup-files)
  1. [DNS Address Redirection](#dns-address-redirection)
  - [Finding your DNS addresses](#finding-your-dns-addresses)
@@ -25,6 +27,9 @@ Some advantages to using Digital Ocean Server's:
 - SSD drives for fast read and write
 - Multiple locations around the world
 - Clean UI
+##Log in and changing password
+To log into your droplet simply run in terminal `ssh root@123.456.000` and punch in the password that they emailed you. Then to change your password run while in ssh `passwd` and punch in a new password. 
+
 
 ##Setting up server side gitHub workflow
 The following steps will allow you to push your GitHub project from your local machine straight to the server.
@@ -69,7 +74,7 @@ Once you are done press <kbd>control</kbd><kbd>d</kbd> to save. Then the followi
 chmod +x post-receive
 ```
 ---
-##Local machine set up to push to the server
+##Local machine set up to push to the server 
 Still within your terminal while still ssh'ing to your server, type the following to get back to your terminal local access.
 
 ```
@@ -234,8 +239,38 @@ nodejs server.js
 You should see the server starting successfully on port whatever configured...
 Then to validate, go to your IP address on a browser to see FanScape in action.
 
-----------
+To stop the server from running and to be able to run the next steps use <kbd>control</kbd> + <kbd>c</kbd>
 
+---
+##Getting Node.JS to keep on going
+
+Install first NVM (Node Version Manager)
+```
+sudo apt-get update
+sudo apt-get install build-essential libssl-dev
+curl https://raw.githubusercontent.com/creationix/nvm/v0.7.0/install.sh | sh
+source ~/.profile
+```
+Then to check which version is available run `nvm ls-remote`.
+To install and use the latest version run:
+```
+nvm install 0.11.13
+nvm use 0.11.13
+```
+And you can always check the version currently used by using `node -v` or if you need to list the various nodes run `nvm ls`
+
+Then when you have the latest version of NodeJS, lets install forever to keep NodeJS going if it crashes or gets updated by restarting the server. To do so use the following command to install it:
+
+```
+sudo npm install -g forever
+```
+Once installed navigate to the server directory in our case `/var/www/fanscape.io` and run:
+```
+forever -w server.js
+```
+This should start your server and keep it going. To be able to see Logs lets look into `forever-monitor`.
+
+---
 ##Some additional setup files...
 This file is designed to autostart the nodejs server on server load, though it is not working quite yet...
 
