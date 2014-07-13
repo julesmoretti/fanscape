@@ -9,7 +9,11 @@ var bodyParser        = require('body-parser');
 
 // configuration ===============================================================
 app.use(morgan('dev')); // log every request to the console
-app.use(bodyParser()); // get information from html forms
+app.use(bodyParser.json()); // get information from html forms
+// app.use(bodyParser()); //Now deprecated
+app.use(bodyParser.urlencoded({
+  extended: true
+})); // get information from html forms
 app.set('view engine', 'ejs'); // set up ejs for templating
 
 // routes ======================================================================
