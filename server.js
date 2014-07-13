@@ -9,7 +9,7 @@ var morgan            = require('morgan');
 var bodyParser        = require('body-parser');
 
 // configuration ===============================================================
-app.use(favicon(__dirname + '/views/img/favicon.ico'));
+app.use(favicon(__dirname + '/views/img/favicon.ico', { maxAge: 500 }));
 app.use(morgan('dev')); // log every request to the console
 app.use(bodyParser.json()); // get information from html forms
 // app.use(bodyParser()); //Now deprecated
