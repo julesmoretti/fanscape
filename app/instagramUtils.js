@@ -4,12 +4,6 @@ var Firebase        = require('firebase'),
     ig              = require('instagram-node').instagram(),
     _               = require('underscore'),
     redirect_uri    = process.env.INSURIREDIRECT ;
-    // profile_picture,
-    // full_name,
-    // userName,
-    // queryCode,
-    // token,
-    // id;
 
 ig.use({
   client_id: process.env.FANSCAPECLIENTID,
@@ -28,42 +22,38 @@ exports.authorize_user = function(req, res) {
 
 // THIRD handle the response from Instagram and store
 exports.handleauth = function(req, res) {
+
+  // queryCode           = req.query.code;
+
   ig.authorize_user(req.query.code, redirect_uri, function(err, result) {
+
+    // profile_picture     = result.user.profile_picture;
+    // token               = result.access_token;
+    // full_name           = result.user.full_name;
+    // userName            = result.user.username;
+    // id                  = result.user.id;
+
     if (err) {
       console.log(err.body);
-      res.send("Didn't work");
+      res.send("Didn't work:" + err.body);
     } else {
-      console.log("Did work");
-
-    fb.child(result.user.username).child('userData').update({'name': result.user.full_name}, function(){
-      // adds to the user name the ID
-      fb.child(result.user.username).child('userData').update({'id': result.user.id}, function(){
-        // adds the token to the library
-        fb.child(result.user.username).child('userData').update({'token': result.access_token}, function(){
-          // adds the query code to the database
-          fb.child(result.user.username).child('userData').update({'queryCode': req.query.code}, function(){
-            // adds the profile photo to the database.
-            fb.child(result.user.username).child('userData').update({'profile_picture': result.user.profile_picture}, function(){
-              res.redirect('/globe?user='+result.user.username+'&id='+result.user.id);
+      // console.log("Did work");
+      // saves users full name in /username/userData/ directory
+      fb.child(result.user.username).child('userData').update({'name': result.user.full_name}, function(){
+        // saves ID in /username/userData/ directory
+        fb.child(result.user.username).child('userData').update({'id': result.user.id}, function(){
+          // saves token in /username/userData/ directory
+          fb.child(result.user.username).child('userData').update({'token': result.access_token}, function(){
+            // saves queryCode in /username/userData/ directory
+            fb.child(result.user.username).child('userData').update({'queryCode': req.query.code}, function(){
+              // saves profile picture in /username/userData/ directory
+              fb.child(result.user.username).child('userData').update({'profile_picture': result.user.profile_picture}, function(){
+                res.redirect('/globe?user='+result.user.username+'&id='+result.user.id);
+              });
             });
           });
         });
       });
-    });
-
-      // // extract data to be saved later to Firebase
-      // queryCode           = req.query.code;
-      // profile_picture     = result.user.profile_picture;
-      // token               = result.access_token;
-      // full_name           = result.user.full_name;
-      // userName            = result.user.username;
-      // id                  = result.user.id;
-
-      // // console.log(token, "this should be the token");
-      // // console.log(full_name, "this should be the full name");
-      // // console.log(userName, "this should be the user Name");
-      // // console.log(id, "this should be the ID");
-      // res.redirect('/globe?user='+userName+'&id='+id);
     }
   });
   };
@@ -126,35 +116,7 @@ exports.fetchAllMedia = function(req, res) {
     }
     };
 
-  // // STEP 3 //
-  // // creates a user structure with full & user name, id, token, query code, profile picture
-  // var checkIntegrity = function () {
-  //   // console.log("STEP 3 - in the checkIntegrity");
-  //     // if nothing existing for current user then create information for user
-  //     if (!userSnapshot){
-  //       fb.child(userName).child('geoData').child('followers').update({'totalFollowers': followers.length}, function(){
-  //         // adds the total number of followers fetched inside a pureData folder
-  //         fb.child(userName).child('pureData').child('followers').update({'totalFollowers': followers.length}, function(){
-  //           // since no initial user found just creates all the data
-  //           goThroughFollowers();
-  //         });
-  //       });
-
-  //     // user was found so check consistency of data by comparing to followers list
-  //     } else {
-  //       //TODO check for difference between previous total count...
-  //       // SOON TO BE REMOVED //
-  //       fb.child(userName).child('geoData').child('followers').update({'totalFollowers': (followers.length)}, function(){
-  //         // adds the total number of followers fetched inside a pureData folder
-  //         fb.child(userName).child('pureData').child('followers').update({'totalFollowers': (followers.length)}, function(){
-  //           // since no initial user found just creates all the data
-  //           goThroughFollowers();
-  //         });
-  //       });
-  //     }
-  //   };
-
-  // STEP 4 //
+  // STEP 3 //
   // runs checkIfFollowerExist on every acquired followers
   var goThroughFollowers = function (){
     // console.log("STEP 4 - in the goThroughFollowers");
@@ -165,7 +127,7 @@ exports.fetchAllMedia = function(req, res) {
 
     };
 
-  // STEP 5 //
+  // STEP 4 //
   // if no followers director then go fetch it using getFollowerMedia
   var checkIfFollowerExist = function (follower){
     // console.log("STEP 5 - in the checkIfFollowerExist");
@@ -192,7 +154,7 @@ exports.fetchAllMedia = function(req, res) {
     }
     };
 
-  // STEP 6 //
+  // STEP 5 //
   // ....
   var getFollowerMedia = function (follower) {
     // console.log("STEP 6 - in the getFollowerMedia");
@@ -248,7 +210,7 @@ exports.fetchAllMedia = function(req, res) {
 
     };
 
-  // STEP 7 //
+  // STEP 6 //
   // takes the media object that has pictures with geolocation data and returns an array of [lat, long, timestamp]
   var filterMedia = function (feed) {
     // console.log("STEP 7 - in the filterMedia");
@@ -268,7 +230,7 @@ exports.fetchAllMedia = function(req, res) {
     return geoLocations;
     };
 
-  // STEP 8 //
+  // STEP 7 //
   // takes array data [lat, long, timestamp or magnityre] and filters it down to an array that has an averaged out magnitude average [lat, long, mag]
   var crossRef = function(data, magnitude){
     var result = [],
