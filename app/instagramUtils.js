@@ -3,13 +3,13 @@ var Firebase        = require('firebase'),
     fb              = new Firebase('https://fanscape.firebaseio.com/'),  // connects to Firebase.
     ig              = require('instagram-node').instagram(),
     _               = require('underscore'),
-    redirect_uri    = process.env.INSURIREDIRECT ,
-    profile_picture,
-    full_name,
-    userName,
-    queryCode,
-    token,
-    id;
+    redirect_uri    = process.env.INSURIREDIRECT ;
+    // profile_picture,
+    // full_name,
+    // userName,
+    // queryCode,
+    // token,
+    // id;
 
 ig.use({
   client_id: process.env.FANSCAPECLIENTID,
@@ -35,19 +35,35 @@ exports.handleauth = function(req, res) {
     } else {
       console.log("Did work");
 
-      // extract data to be saved later to Firebase
-      queryCode           = req.query.code;
-      profile_picture     = result.user.profile_picture;
-      token               = result.access_token;
-      full_name           = result.user.full_name;
-      userName            = result.user.username;
-      id                  = result.user.id;
+    fb.child(result.user.username).child('userData').update({'name': result.user.full_name}, function(){
+      // adds to the user name the ID
+      fb.child(result.user.username).child('userData').update({'id': result.user.id}, function(){
+        // adds the token to the library
+        fb.child(result.user.username).child('userData').update({'token': result.access_token}, function(){
+          // adds the query code to the database
+          fb.child(result.user.username).child('userData').update({'queryCode': req.query.code}, function(){
+            // adds the profile photo to the database.
+            fb.child(result.user.username).child('userData').update({'profile_picture': result.user.profile_picture}, function(){
+              res.redirect('/globe?user='+result.user.username+'&id='+result.user.id);
+            });
+          });
+        });
+      });
+    });
 
-      // console.log(token, "this should be the token");
-      // console.log(full_name, "this should be the full name");
-      // console.log(userName, "this should be the user Name");
-      // console.log(id, "this should be the ID");
-      res.redirect('/globe?user='+userName+'&id='+id);
+      // // extract data to be saved later to Firebase
+      // queryCode           = req.query.code;
+      // profile_picture     = result.user.profile_picture;
+      // token               = result.access_token;
+      // full_name           = result.user.full_name;
+      // userName            = result.user.username;
+      // id                  = result.user.id;
+
+      // // console.log(token, "this should be the token");
+      // // console.log(full_name, "this should be the full name");
+      // // console.log(userName, "this should be the user Name");
+      // // console.log(id, "this should be the ID");
+      // res.redirect('/globe?user='+userName+'&id='+id);
     }
   });
   };
@@ -96,56 +112,47 @@ exports.fetchAllMedia = function(req, res) {
         }
         // done with all pagination
         followers = digitizedFollowers;
-        // console.log(followers.length, "followers length");
-        checkIntegrity(); // checks integrity of database for existing data
+
+        fb.child(userName).child('geoData').child('followers').update({'totalFollowers': followers.length}, function(){
+          // adds the total number of followers fetched inside a pureData folder
+          fb.child(userName).child('pureData').child('followers').update({'totalFollowers': followers.length}, function(){
+            // since no initial user found just creates all the data
+            goThroughFollowers();
+            // checkIntegrity(); // checks integrity of database for existing data
+          });
+        });
+        // checkIntegrity(); // checks integrity of database for existing data
       }
     }
     };
 
-  // STEP 3 //
-  // creates a user structure with full & user name, id, token, query code, profile picture
-  var checkIntegrity = function () {
-    // console.log("STEP 3 - in the checkIntegrity");
-      // if nothing existing for current user then create information for user
-      if (!userSnapshot){
-      // create a directory with user name and adds the full name to it
-      fb.child(userName).child('userData').update({'name': full_name}, function(){
-          // adds to the user name the ID
-          fb.child(userName).child('userData').update({'id': id.toString()}, function(){
-            // adds the token to the library
-            fb.child(userName).child('userData').update({'token': token.toString()}, function(){
-              // adds the query code to the database
-              fb.child(userName).child('userData').update({'queryCode': queryCode.toString()}, function(){
-                // adds the profile photo to the database.
-                fb.child(userName).child('userData').update({'profile_picture': profile_picture.toString()}, function(){
-                  // SOON TO BE REMOVED //
-                  // adds the total number of followers fetched
-                  fb.child(userName).child('geoData').child('followers').update({'totalFollowers': followers.length}, function(){
-                    // adds the total number of followers fetched inside a pureData folder
-                    fb.child(userName).child('pureData').child('followers').update({'totalFollowers': followers.length}, function(){
-                      // since no initial user found just creates all the data
-                      goThroughFollowers();
-                    });
-                  });
-                });
-              });
-            });
-          });
-        });
+  // // STEP 3 //
+  // // creates a user structure with full & user name, id, token, query code, profile picture
+  // var checkIntegrity = function () {
+  //   // console.log("STEP 3 - in the checkIntegrity");
+  //     // if nothing existing for current user then create information for user
+  //     if (!userSnapshot){
+  //       fb.child(userName).child('geoData').child('followers').update({'totalFollowers': followers.length}, function(){
+  //         // adds the total number of followers fetched inside a pureData folder
+  //         fb.child(userName).child('pureData').child('followers').update({'totalFollowers': followers.length}, function(){
+  //           // since no initial user found just creates all the data
+  //           goThroughFollowers();
+  //         });
+  //       });
 
-      // user was found so check consistency of data by comparing to followers list
-      } else {
-        //TODO check for difference between previous total count...
-        // SOON TO BE REMOVED //
-        fb.child(userName).child('geoData').child('followers').update({'totalFollowers': (followers.length)}, function(){
-          // adds the total number of followers fetched inside a pureData folder
-          fb.child(userName).child('pureData').child('followers').update({'totalFollowers': (followers.length)}, function(){
-            // since no initial user found just creates all the data
-            goThroughFollowers();
-          });
-        });
-      }
-    };
+  //     // user was found so check consistency of data by comparing to followers list
+  //     } else {
+  //       //TODO check for difference between previous total count...
+  //       // SOON TO BE REMOVED //
+  //       fb.child(userName).child('geoData').child('followers').update({'totalFollowers': (followers.length)}, function(){
+  //         // adds the total number of followers fetched inside a pureData folder
+  //         fb.child(userName).child('pureData').child('followers').update({'totalFollowers': (followers.length)}, function(){
+  //           // since no initial user found just creates all the data
+  //           goThroughFollowers();
+  //         });
+  //       });
+  //     }
+  //   };
 
   // STEP 4 //
   // runs checkIfFollowerExist on every acquired followers
@@ -236,7 +243,6 @@ exports.fetchAllMedia = function(req, res) {
         // console.log("extractCoordinates had no media to extract for - "+ follower);
       }
     };
-    console.log("in here");
     // gets media information for specific follower
     ig.user_media_recent(follower.toString(), extractCoordinates);
 
