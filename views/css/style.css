@@ -20,13 +20,21 @@ html {
 
       .description {
         position: absolute;
-        left: 20px;
-        bottom: 20px;
+        left: 30px;
+        bottom: 10px;
         color: white;
         opacity: 0.4;
         font-weight: 100;
         font-style: italic;
         padding-right: 20px;
+      }
+
+      .disclamer {
+        color: rgb(177, 176, 176);
+        font-size: 12px;
+        text-align: center;
+        font-weight: 100;
+        letter-spacing: 1px !important;
       }
 
       #signIn {
