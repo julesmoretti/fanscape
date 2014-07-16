@@ -10,7 +10,7 @@ Showcasing your Instagram follower scape of geotagged images over the world.
 ###User's manual###
  - [Introduction](https://github.com/julesmoretti/fanscape/wiki/Introduction) - FanScape in a nutshell
  - [Features](https://github.com/julesmoretti/fanscape/wiki/Features) - Brief list of supported features
- - [Compatibility](Compatibility) -  List of supported platforms
+ - [Compatibility](https://github.com/julesmoretti/fanscape/wiki/Compatibility) -  List of supported platforms
  - [Dependencies](https://github.com/julesmoretti/fanscape/wiki/Dependencies) - Information about third-party libraries and ways to get those
  - [Local Install](https://github.com/julesmoretti/fanscape/wiki/Local Install) - Workflow to clone repo and get it up and running from your computer
  - [Server Side Implementation](https://github.com/julesmoretti/fanscape/wiki/Server Side Implementation) - Workflow to migrate project repo from your local machine to your own physical server hosted on Digital Ocean
