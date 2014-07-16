@@ -2,6 +2,8 @@
 
 Showcasing your Instagram follower scape of geotagged images over the world.
 
+You can play with the live version of FanScape at http://fanscape.io
+
 ##Table of Content:
 
  - [Wiki](https://github.com/julesmoretti/fanscape/wiki) - Access to the Wiki documentation.
@@ -20,3 +22,5 @@ Showcasing your Instagram follower scape of geotagged images over the world.
 ###Miscellaneous###
  - [FAQ](https://github.com/julesmoretti/fanscape/wiki/FAQ) - Frequently Asked Questions
  - [Screenshots](https://github.com/julesmoretti/fanscape/wiki/Screenshots) - Collection of screenshots demonstrating some of features
+
+Thank you and enjoy...
