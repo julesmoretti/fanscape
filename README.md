@@ -4,7 +4,7 @@ Showcasing your Instagram follower scape of geotagged images over the world.
 
 ##Table of Content:
 
- - [wiki](https://github.com/julesmoretti/fanscape/wiki) - Access to the wiki documentation.
+ - [Wiki](https://github.com/julesmoretti/fanscape/wiki) - Access to the Wiki documentation.
 
 ---
 ###User's manual###
