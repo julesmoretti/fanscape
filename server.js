@@ -16,6 +16,9 @@ app.use(bodyParser.json()); // get information from html forms
 app.use(bodyParser.urlencoded({
   extended: true
 })); // get information from html forms
+app.use(express.static('.'));
+
+app.set('views', __dirname + '/views');
 app.set('view engine', 'ejs'); // set up ejs for templating
 
 // routes ======================================================================
@@ -24,4 +27,3 @@ require(__dirname + '/app/routes.js')(app); // load our routes and pass in our a
 // launch ======================================================================
 app.listen(port);
 console.log('The magic happens on port ' + port);
-app.use(express.static('.'));

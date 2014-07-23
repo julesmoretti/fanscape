@@ -1,7 +1,6 @@
 // app/routes.js
 // set up ======================================================================
 var instagramUtils = require('./instagramUtils.js');
-
 // routes ======================================================================
 module.exports = function(app, passport) {
 
@@ -16,4 +15,9 @@ module.exports = function(app, passport) {
 
   // start the process of gathering data
   app.get('/globe', instagramUtils.fetchAllMedia);
+
+  app.get('*', function(req, res){
+    res.render('./partials/404.ejs');
+  });
+
 };

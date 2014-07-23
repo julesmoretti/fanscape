@@ -18,8 +18,8 @@
     "firebase": "^1.0.15-3",
     "instagram": "0.0.4",
     "instagram-node": "^0.3.0",
-    "jquery": "^2.1.1",
     "morgan": "^1.0.1",
+    "request": "^2.37.0",
     "serve-favicon": "^2.0.1",
     "underscore": "^1.6.0"
   },
