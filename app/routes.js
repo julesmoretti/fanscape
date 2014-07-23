@@ -16,6 +16,10 @@ module.exports = function(app, passport) {
   // start the process of gathering data
   app.get('/globe', instagramUtils.fetchAllMedia);
 
+  app.get('/404/', function(req, res){
+    res.render('./partials/404.ejs');
+  });
+
   app.get('*', function(req, res){
     res.render('./partials/404.ejs');
   });

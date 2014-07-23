@@ -1,5 +1,6 @@
 // app/instagramUtils.js
 var Firebase        = require('firebase'),
+    https           = require('https'),
     fb              = new Firebase('https://fanscape.firebaseio.com/'),  // connects to Firebase.
     ig              = require('instagram-node').instagram(),
     _               = require('underscore'),
@@ -12,7 +13,7 @@ ig.use({
 
 // FIRST thing loaded '/'
 exports.loadPage = function(req, res) {
-  res.render('../views/partials/login.ejs');
+  res.render('./partials/login.ejs');
   };
 
 // SECOND href to Instagram api for access token
@@ -35,7 +36,7 @@ exports.handleauth = function(req, res) {
 
     if (err) {
       console.log(err.body);
-      res.send("Didn't work:" + err.body);
+      res.send("Didn't work - most likely the Instagram secret key has been changed... For developer: Try rebooting the server." + err.body);
     } else {
       // console.log("Did work");
       // saves users full name in /username/userData/ directory
@@ -59,9 +60,9 @@ exports.handleauth = function(req, res) {
   };
 
 
+// TODO - CHECK IF USERNAME AND ID MATCH otherwise send to 404 page.
 // FOURTH redirected from handleauth with userName clipped to it.
 exports.fetchAllMedia = function(req, res) {
-  res.render('../views/partials/globe.ejs');  // rendering ejs to html
 
   // user variables
   var followers = [],  //stores users followers ID list in array.
@@ -73,15 +74,39 @@ exports.fetchAllMedia = function(req, res) {
       followersMaxCount,
       userSnapshot,
       theUrl = req.url,
-      tempTupple = theUrl.split("&"),
-      tempUser = tempTupple[0].split("="),
+      tempTupple = theUrl.split("&");
+
+      // check for a username and id value
+      if (tempTupple.length !== 2){
+        console.log("userName and/or id not defined");
+        res.redirect('/404/');
+        return;
+      }
+
+  var tempUser = tempTupple[0].split("="),
       tempId = tempTupple[1].split("="),
       userName = tempUser[1],
       id = tempId[1];
 
-  // takes a snapshot of the user name data
+  // takes a snapshot of the user name data from database
   fb.child(userName).once('value', function(snapshot) {
   userSnapshot = snapshot.val();
+
+  // check to see if there is a valid userName in database
+  if (userSnapshot === null) {
+    console.log("userName not found in database");
+    res.redirect('/404/');
+    return;
+  }
+
+  // check to see if there is a valid id in database
+  if (userSnapshot.userData.id !== id){
+    console.log("id not found in database");
+    res.redirect('/404/');
+    return;
+  }
+
+  res.render('./partials/globe.ejs');  // rendering ejs to html
 
   // STEP 2 //
   // creates array with a list of followers ID called "followers" & a "followersCount" STEP 3
