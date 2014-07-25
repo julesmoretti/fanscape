@@ -1,0 +1,334 @@
+/***********************************************/
+/** SASS CSS STYLING **/
+/** run the following to see changes live **/
+/** nodemon --watch views/css/ -e scss server.js **/
+
+html {
+  height: 100%;
+
+  body {
+    margin: 0;
+    padding: 0;
+    /*background: #000000 url(/views/img/loading.gif) center center no-repeat;*/
+    background: #000000;
+    height: 100%;
+
+    a {
+      color: #aaa;
+      text-decoration: none;
+
+      a:hover {
+        text-decoration: underline;
+      }
+    }
+
+
+    #signIn {
+      width:320px;
+      height:320px;
+      position: fixed;
+      background-color: rgba(250,0,0,0.4);
+      top: 50%;
+      left: 50%;
+      margin-top: -160px;
+      margin-left: -160px;
+
+      .titleWrap {
+        width:100%;
+        height:160px;
+        text-align: center;
+        vertical-align:middle;
+
+        #title {
+          width: 320px;
+          height: 100px;
+          position: fixed;
+          top: 50%;
+          left: 50%;
+          margin-top: -100px;
+          margin-left: -160px;
+          font-family: "estilo-regular",sans-serif;
+          font-size: 70px;
+          margin-top: -60px;
+          color: white;
+          opacity: 0.6;
+          text-align: center;
+        }
+      }
+      .titleWrap2 {
+        width: 100%;
+        height: 100px;
+        vertical-align: middle;
+
+        #title2 {
+          position: fixed;
+          font-family: "estilo-regular",sans-serif;
+          font-size: 70px;
+          color: white;
+          opacity: 0.6;
+          padding-left: 16px;
+        }
+      }
+
+      .instagramSign {
+        border-radius: 6px;
+        /*background: #f8f3e7;*/
+        background: rgba(248, 243, 231, 0.6);
+        /*opacity: 0.9;*/
+        width: 300;
+        height: 44px;
+        margin: 0 10px 0 10px;
+        margin-top: 20px;
+        border: 1px solid rgba(255, 255, 255, 0.4);
+
+        .instaStripe {
+          width:10px;
+          height:100%;
+          float:left;
+          opacity: 0.7;
+        }
+
+        .tagLineWrap {
+          float: left;
+          height:100%;
+          width: 83%;
+          padding-top: 8px;
+
+          #tagLine {
+            font-size: 20px;
+            color: #4d473b;
+            font-weight: 500;
+            margin-left: 26px;
+            text-shadow: 1px 1px 1px rgba(255, 255, 255, 0.5);
+          }
+        }
+      }
+
+      .disclamer {
+        color: rgb(177, 176, 176);
+        font-size: 12px;
+        text-align: center;
+        font-weight: 100;
+        letter-spacing: 1px !important;
+      }
+    }
+
+    .description {
+      position: absolute;
+      left: 30px;
+      bottom: 10px;
+      color: white;
+      opacity: 0.6;
+      font-weight: 100;
+      font-style: italic;
+      padding-right: 20px;
+    }
+  }
+}
+
+
+      #info {
+        font-size: 11px;
+        position: absolute;
+        bottom: 5px;
+        background-color: rgba(0,0,0,0.8);
+        border-radius: 3px;
+        right: 10px;
+        padding: 10px;
+      }
+
+      #logout {
+        border-radius: 4px;
+        /*background: rgba(248, 243, 231, 0.2);*/
+        width:110px;
+        height: 24px;
+        border: 1px solid rgba(145, 145, 145, 0.8);
+        position: absolute;
+        bottom: 0;
+        left: 0;
+        margin-left: 23px;
+        margin-bottom:17px;
+        z-index: 500;
+      }
+
+      .LOinstaStripe {
+        width:6px;
+        height:100%;
+        float:left;
+        opacity: 0.5;
+      }
+
+      .LOtagLineWrap {
+        float: left;
+        height: 100%;
+        padding-top: 2px;
+        margin-left: 7px;
+        color: rgba(255, 255, 255, 0.5);
+      }
+
+      .typekit-badge {
+        display: none !important;
+      }
+
+      #userProfile {
+        position: absolute;
+        bottom: 0;
+        right:0;
+        margin-right: 10px;
+        margin-bottom: 10px;
+      }
+
+      #user {
+        text-align: center;
+        float: right;
+      }
+
+      #user img {
+        border: 1px solid rgba(250, 250, 250,0.5);
+        border-radius: 80px;
+        opacity: 0.8;
+        height: 111px;
+        width: 111px;
+        display: block;
+        margin-top: 4px;
+        margin-bottom: 5px;
+      }
+
+      #user span {
+        color: rgba(250, 250, 250,0.5);
+        text-transform: uppercase;
+        font-size: 9px;
+      }
+
+      div#follower {
+        float: right;
+        margin-bottom: -60px;
+        margin-right: 20px;
+        margin-left: 25px;
+        text-align: center;
+      }
+
+      #followerDial {
+        display: inline;
+        /*width: 150px;*/
+        /*height: 200px;*/
+      }
+
+      #followerCanvas {
+        /*width: 150px;*/
+        height: 180px;
+        margin-bottom: -50px;
+      }
+
+      #followerInput {
+        width: 79px;
+        height: 50px;
+        position: absolute;
+        vertical-align: middle;
+        margin-top: 50px;
+        margin-left: -114px;
+        border: 0px;
+        font-weight: bold;
+        font-style: normal;
+        font-variant: normal;
+        font-size: 30px;
+        line-height: normal;
+        font-family: Arial;
+        text-align: center;
+        color: rgb(255, 236, 3);
+        padding: 0px;
+        -webkit-appearance: none;
+        background: none;
+      }
+
+      div#followersInfo {
+        position: absolute;
+        top: 128px;
+        color: rgba(250, 250, 250,0.5);
+        text-transform: uppercase;
+        font-size: 9px;
+        left: 138px;
+        width: 120px
+      }
+
+      form#username-form {
+        margin-top: 16px;
+        margin-top: 5;
+      }
+
+      input#message {
+        height: 37px;
+        height: 4;
+        border: 0px;
+        width: 150px;
+        /* margin-bottom: 5px; */
+        margin-bottom: 1p;
+        margin-bottom: 1;
+        text-indent: 10px;
+        border-radius: 5px 0 0 5px;
+        border-radius: 5;
+        background-color: rgba(100,100,100,0.4);
+        color: #A5A5A5;
+      }
+
+      button {
+        border-radius: 0 5px 5px 0;
+        border: 0px;
+        border: 0;
+        height: 40px;
+        height: 4;
+        width: 80px;
+        opacity: 0.3;
+        font-size: 15px;
+      }
+
+      #currentInfo {
+        width: 270px;
+        position: absolute;
+        left: 20px;
+        top: 63px;
+
+        background-color: rgba(0,0,0,0.2);
+
+        border-top: 1px solid rgba(255,255,255,0.4);
+        padding: 10px;
+      }
+
+
+
+      .bull {
+        padding: 0 5px;
+        color: #555;
+      }
+
+      .year {
+        font: 16px Georgia;
+        line-height: 26px;
+        height: 30px;
+        text-align: center;
+        float: left;
+        width: 90px;
+        color: rgba(255, 255, 255, 0.4);
+
+        cursor: pointer;
+        -webkit-transition: all 0.1s ease-out;
+      }
+
+      .year:hover, .year.active {
+        font-size: 23px;
+        color: #fff;
+      }
+
+      #ce span {
+        display: none;
+      }
+
+      #ce {
+        width: 107px;
+        height: 55px;
+        display: block;
+        position: absolute;
+        bottom: 15px;
+        left: 20px;
+        background: url(/views/ce.png);
+      }

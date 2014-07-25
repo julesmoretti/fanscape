@@ -19,6 +19,7 @@
     "instagram": "0.0.4",
     "instagram-node": "^0.3.0",
     "morgan": "^1.0.1",
+    "node-sass": "^0.9.3",
     "request": "^2.37.0",
     "serve-favicon": "^2.0.1",
     "underscore": "^1.6.0"
