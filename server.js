@@ -1,29 +1,19 @@
-// server.js
+//  server.js
 
-// set up ======================================================================
-var express           = require('express');
-var app               = express();
-var favicon           = require('serve-favicon');
-var port              = process.env.PORT || 3000;
-var morgan            = require('morgan');
-var bodyParser        = require('body-parser');
+//  set up ======================================================================
+var port            = process.env.PORT || 3000,
+    express         = require('express'),
+    app             = express();
+    app.use(express.static('.'));
 
-// configuration ===============================================================
-app.use(favicon(__dirname + '/views/img/favicon.ico', { maxAge: 500 }));
-app.use(morgan('dev')); // log every request to the console
-app.use(bodyParser.json()); // get information from html forms
-// app.use(bodyParser()); //Now deprecated
-app.use(bodyParser.urlencoded({
-  extended: true
-})); // get information from html forms
-app.use(express.static('.'));
+//  load middleware =============================================================
+    require('./middleware.js')(app);
 
-app.set('views', __dirname + '/views');
-app.set('view engine', 'ejs'); // set up ejs for templating
+//  routes ======================================================================
+var router = express.Router();
+    require('./app/routes.js')(router);
+    app.use(router);
 
-// routes ======================================================================
-require(__dirname + '/app/routes.js')(app); // load our routes and pass in our app and fully configured passport
-
-// launch ======================================================================
-app.listen(port);
-console.log('The magic happens on port ' + port);
+//  launch ======================================================================
+    app.listen(port);
+    console.log('The magic happens on port ' + port);
