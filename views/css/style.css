@@ -2,6 +2,10 @@
 /** SASS CSS STYLING **/
 /** run the following to see changes live **/
 /** nodemon --watch views/css/ -e scss server.js **/
+@font-face {
+  font-family: ionicons;
+  src: url(../fonts/ionicons.ttf); }
+
 html {
   height: 100%; }
   html body {
@@ -55,9 +59,7 @@ html {
           text-align: center; }
       html body #signIn .instagramSign {
         border-radius: 6px;
-        /*background: #f8f3e7;*/
         background: rgba(248, 243, 231, 0.6);
-        /*opacity: 0.9;*/
         width: 300;
         height: 44px;
         margin: 0 10px 0 10px;
@@ -85,15 +87,60 @@ html {
         text-align: center;
         font-weight: 100;
         letter-spacing: 1px !important; }
+    html body .info_button {
+      position: absolute;
+      bottom: 13px;
+      left: 18px;
+      width: 30px;
+      height: initial;
+      font-family: "ionicons";
+      color: white;
+      opacity: 0.5;
+      padding-left: 1px;
+      cursor: pointer; }
+      html body .info_button:before {
+        content: "\f19c";
+        font-weight: normal;
+        font-size: 30px; }
+    html body #visibility {
+      display: none; }
+    html body .info_content {
+      width: initial;
+      height: initial;
+      border-radius: 6px;
+      background-color: rgba(255, 255, 255, 0.25);
+      position: absolute;
+      left: 10px;
+      bottom: 58px;
+      padding: 5px 15px; }
+      html body .info_content a {
+        font-weight: 100;
+        font-size: 14px;
+        font-style: italic; }
+        html body .info_content a span {
+          font-weight: 200;
+          text-transform: uppercase;
+          font-style: normal;
+          color: rgba(255, 255, 255, 0.6);
+          font-size: 11px; }
+      html body .info_content.bot_left::before {
+        left: 9px;
+        bottom: -22px;
+        border-top: 10px solid rgba(255, 255, 255, 0.25); }
+      html body .info_content::before {
+        content: "";
+        width: 0px;
+        height: 0px;
+        border: 0.8em solid transparent;
+        position: absolute; }
     html body .description {
       position: absolute;
-      left: 30px;
+      right: 10px;
       bottom: 10px;
       color: white;
       opacity: 0.6;
       font-weight: 100;
-      font-style: italic;
-      padding-right: 20px; }
+      font-style: italic; }
 
 #info {
   font-size: 11px;
@@ -113,7 +160,7 @@ html {
   position: absolute;
   bottom: 0;
   left: 0;
-  margin-left: 23px;
+  margin-left: 62px;
   margin-bottom: 17px;
   z-index: 500; }
 

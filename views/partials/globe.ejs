@@ -96,6 +96,7 @@
         </script>
     <link rel="stylesheet" type="text/css" href="/views/css/style.css" media="all">
     <link rel="stylesheet" type="text/css" href="/views/css/layout.css" media="all">
+    <link rel="stylesheet" type="text/css" href="/views/css/ionicons.min.css" media="all">
     <script type="text/javascript" src="//use.typekit.net/hto8ggy.js"></script>
     <script type="text/javascript">try{Typekit.load();}catch(e){}</script>
   </head>
@@ -106,15 +107,23 @@
     <span>FanScape</span>
   </div>
 
-<div id="logout" onclick="location.href='https://instagram.com/accounts/logout';" style="cursor: pointer;">
-  <div class="LOinstaStripe" style="background-color: #e11138; border-radius: 4px 0 0 4px; width: 5px;"></div>
-  <div class="LOinstaStripe" style="background-color: #edc130;"></div>
-  <div class="LOinstaStripe" style="background-color: #6cbf93;"></div>
-  <div class="LOinstaStripe" style="background-color: #3e9be5; border-radius: 0 2px 2px 0;"></div>
-  <div class="LOtagLineWrap">
-    <span id="LOtagLine">Sign Out</span>
+  <div class="info_button" onclick="$('#visibility').toggle();">
   </div>
-</div>
+  <div id="visibility" class="info_content bot_left">
+    <a href="https://github.com/julesmoretti/fanscape"><span>Main Repo</span> - https://github.com/julesmoretti/fanscape</a><br/>
+    <a href="https://github.com/julesmoretti/fanscape/issues"><span>For Any Issues</span> - https://github.com/julesmoretti/fanscape/issues</a>
+    </div>
+  </div>
+
+  <div id="logout" onclick="location.href='https://instagram.com/accounts/logout';" style="cursor: pointer;">
+    <div class="LOinstaStripe" style="background-color: #e11138; border-radius: 4px 0 0 4px; width: 5px;"></div>
+    <div class="LOinstaStripe" style="background-color: #edc130;"></div>
+    <div class="LOinstaStripe" style="background-color: #6cbf93;"></div>
+    <div class="LOinstaStripe" style="background-color: #3e9be5; border-radius: 0 2px 2px 0;"></div>
+    <div class="LOtagLineWrap">
+      <span id="LOtagLine">Sign Out</span>
+    </div>
+  </div>
 
   <div id="userProfile">
     <div id='follower'>
