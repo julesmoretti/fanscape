@@ -22,6 +22,20 @@ html {
       }
     }
 
+    .globe_title {
+      top: 10px;
+      left: 20px;
+      width: inherit;
+      height: initial;
+      position: absolute;
+      color: white;
+      opacity: 0.6;
+
+      span {
+          font-family: "estilo-regular",sans-serif;
+          font-size: 70px;
+      }
+    }
 
     #signIn {
       width:320px;
@@ -52,20 +66,6 @@ html {
           color: white;
           opacity: 0.6;
           text-align: center;
-        }
-      }
-      .titleWrap2 {
-        width: 100%;
-        height: 100px;
-        vertical-align: middle;
-
-        #title2 {
-          position: fixed;
-          font-family: "estilo-regular",sans-serif;
-          font-size: 70px;
-          color: white;
-          opacity: 0.6;
-          padding-left: 16px;
         }
       }
 
