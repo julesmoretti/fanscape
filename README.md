@@ -1,5 +1,7 @@
 #FanScape
 
+<img src="https://m1.behance.net/rendition/modules/128227355/hd/553e40532861acea995f4bc5440dfb26.jpg" style="max-width:100%;">
+
 Showcasing your Instagram follower scape of geotagged images over the world.
 
 You can play with the live version of FanScape at http://fanscape.io
