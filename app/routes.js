@@ -24,7 +24,7 @@ var instagramUtils  = require('./instagramUtils.js');
       res.render('./partials/404.ejs');
     });
 
-    // send any unknown to the 404 page!
+    // send any unknown directory to the 404 page!
     app.get('*', function(req, res){
       res.redirect('./404/');
     });

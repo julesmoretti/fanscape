@@ -1,6 +1,6 @@
 {
   "name": "FanScape",
-  "version": "0.0.1",
+  "version": "0.0.2",
   "description": "Analytic tool that displays your followers photos on a map",
   "main": "server.js",
   "scripts": {
@@ -13,23 +13,23 @@
   },
   "dependencies": {
     "body-parser": "^1.2.0",
+    "crypto": "0.0.3",
     "ejs": "^1.0.0",
     "express": "^4.2.0",
     "firebase": "^1.0.15-3",
-    "instagram": "0.0.4",
-    "instagram-node": "^0.3.0",
     "morgan": "^1.0.1",
     "node-sass": "^0.9.3",
-    "request": "^2.37.0",
+    "request": "^2.40.0",
     "serve-favicon": "^2.0.1",
     "underscore": "^1.6.0"
   },
   "devDependencies": {},
   "keywords": [
     "node",
+    "request",
+    "crypto",
     "express",
     "firebase",
-    "instagram-node",
     "instagram"
   ],
   "author": "Jules Moretti",

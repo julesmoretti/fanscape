@@ -3,13 +3,17 @@
 //  set up ======================================================================
 var favicon         = require('serve-favicon'),
     bodyParser      = require('body-parser'),
-    morgan          = require('morgan'),
+    morgan          = require('morgan');
+
+  if( process.env.LOCAL ){
     sass            = require('node-sass');
+  }
 
 
   module.exports    = function(app){
 
 //  sass css generator ==========================================================
+  if( process.env.LOCAL ){
     sass.renderFile({
       file: './views/css/style.scss',
       success: function(css) {
@@ -23,6 +27,7 @@ var favicon         = require('serve-favicon'),
       // outputStyle: 'compressed',
       outFile: './views/css/style.css'
     });
+  }
 
 //  loading standard middleware =================================================
     app.use(bodyParser.json());
