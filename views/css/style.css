@@ -99,7 +99,7 @@ html {
       padding-left: 1px;
       cursor: pointer; }
       html body .info_button:before {
-        content: "\f19c";
+        content: "\f142";
         font-weight: normal;
         font-size: 30px; }
     html body #visibility {

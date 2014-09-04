@@ -150,7 +150,6 @@
 
       //////////////////////////////////////////////////////////////////////////////////
       // TODO
-      // Optimize code so that it does not crash!
       // Implement a date picker function
       //////////////////////////////////////////////////////////////////////////////////
 
@@ -175,8 +174,8 @@
       // Loads a globe
       var container = document.getElementById( 'container' );  // Where to put the globe?
       var globe = new DAT.Globe( container );  // Make the globe
-      globe.createPoints();  // Create the geometry
-      globe.animate();  // Begin animation
+          globe.createPoints();  // Create the geometry
+          globe.animate();  // Begin animation
 
       // removes spikes from globe
       var clearScene = function() {
@@ -254,76 +253,77 @@
           });
         };
 
-        // first check for existing data
-        fa.once('value', function(dataSnapshot){
+        // // first check for existing data
+        // fa.once('value', function(dataSnapshot){
 
-          var fbSnapshot = dataSnapshot;  // extract data from Firebase in the form of a snapshot
-          var cleanSnapshot = fbSnapshot.val();  //converts Firebase snapshot into readable data
+        //   var fbSnapshot = dataSnapshot;  // extract data from Firebase in the form of a snapshot
+        //   var cleanSnapshot = fbSnapshot.val();  //converts Firebase snapshot into readable data
 
-          // check snapshot for data
-          if(cleanSnapshot){
-            // check snapshot for existing userName
-            if(cleanSnapshot[userName]){
+        //   // check snapshot for data
+        //   if(cleanSnapshot){
+        //     // check snapshot for existing userName
+        //     if(cleanSnapshot[userName]){
 
-              // get user profile picture and name
-              if(cleanSnapshot[userName].userData){
-                // console.log("userData found");
-                // sets profile photo if exist
-                if(cleanSnapshot[userName].userData.profile_picture){
-                  $("#user img").attr("src", cleanSnapshot[userName].userData.profile_picture);
-                  getProfile = true;
-                }
+        //       // get user profile picture and name
+        //       if(cleanSnapshot[userName].userData){
+        //         // console.log("userData found");
+        //         // sets profile photo if exist
+        //         if(cleanSnapshot[userName].userData.profile_picture){
+        //           $("#user img").attr("src", cleanSnapshot[userName].userData.profile_picture);
+        //           getProfile = true;
+        //         }
 
-                // set profile name if exist
-                if(cleanSnapshot[userName].userData.name){
-                  // console.log("set user name text on start");
-                  $("#user span").text(cleanSnapshot[userName].userData.name);
-                }
-                }
+        //         // set profile name if exist
+        //         if(cleanSnapshot[userName].userData.name){
+        //           // console.log("set user name text on start");
+        //           $("#user span").text(cleanSnapshot[userName].userData.name);
+        //         }
+        //         }
 
-              // check snapshot for existing data
-              if(cleanSnapshot[userName].pureData){
-                // check for followers directory
-                if(cleanSnapshot[userName].pureData.followers){
-                  // check for total totalFollowers figure
-                  if(cleanSnapshot[userName].pureData.followers.totalFollowers){
-                    // set totalFollowers figure
-                    totalFollowers = cleanSnapshot[userName].pureData.followers.totalFollowers;
-                    // check for total followersDone figure
-                    if(cleanSnapshot[userName].pureData.followers.followersDone){
-                      // set followersDone figure
-                      followersDone = cleanSnapshot[userName].pureData.followers.followersDone;
-                      $("#followerDoneCount").text(totalFollowers);  // edit dial subtext info
-                      percent = (followersDone / totalFollowers) * 100;
-                      $('.knob').val(percent).trigger('change');  // modify dial to have that figure
-                    }
-                  }
-                }
+        //       // check snapshot for existing data
+        //       if(cleanSnapshot[userName].pureData){
+        //         // check for followers directory
+        //         if(cleanSnapshot[userName].pureData.followers){
+        //           // check for total totalFollowers figure
+        //           if(cleanSnapshot[userName].pureData.followers.totalFollowers){
+        //             // set totalFollowers figure
+        //             totalFollowers = cleanSnapshot[userName].pureData.followers.totalFollowers;
+        //             // check for total followersDone figure
+        //             if(cleanSnapshot[userName].pureData.followers.followersDone){
+        //               // set followersDone figure
+        //               followersDone = cleanSnapshot[userName].pureData.followers.followersDone;
+        //               $("#followerDoneCount").text(totalFollowers);  // edit dial subtext info
+        //               percent = (followersDone / totalFollowers) * 100;
+        //               $('.knob').val(percent).trigger('change');  // modify dial to have that figure
+        //             }
+        //           }
+        //         }
 
-                // then inject it back into the globe
-                globe.addData(cleanSnapshot[userName].pureData.data, {format: 'magnitude'});
-                globe.createPoints();
-                // globe.animate();
-                goLive();
-                console.log("gone live");
+        //         // then inject it back into the globe
+        //         globe.addData(cleanSnapshot[userName].pureData.data, {format: 'magnitude'});
+        //         globe.createPoints();
+        //         // globe.animate();
+        //         goLive();
+        //         console.log("gone live");
 
-              // if no status then that means that the data has not completely downloaded
-              } else {
-                // opens a listening port to Firebase to update data on the globe.
-                console.log("skipped first check");
-                goLive();
-              }
-            } else {
-              // opens a listening port to Firebase to update data on the globe.
-              console.log("skipped first check");
-              goLive();
-            }
-          } else {
-            // opens a listening port to Firebase to update data on the globe.
-            console.log("skipped first check");
-            goLive();
-          }
-        });
+        //       // if no status then that means that the data has not completely downloaded
+        //       } else {
+        //         // opens a listening port to Firebase to update data on the globe.
+        //         console.log("skipped first check");
+        //         goLive();
+        //       }
+        //     } else {
+        //       // opens a listening port to Firebase to update data on the globe.
+        //       console.log("skipped first check");
+        //       goLive();
+        //     }
+        //   } else {
+        //     // opens a listening port to Firebase to update data on the globe.
+        //     console.log("skipped first check");
+        //     goLive();
+        //   }
+        // });
+        goLive();
 
       }
 
