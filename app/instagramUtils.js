@@ -166,7 +166,11 @@ var Firebase                  = require('firebase'),
       return;
     }
 
-    res.render('./partials/globe.ejs');  // rendering ejs to html
+      setTimeout(
+        function(){
+            // timer_quick( fancrawl_instagram_id );
+            res.render('./partials/globe.ejs');  // rendering ejs to html
+      }, 500); // 0.5 sec
 
     // STEP 2 //
     // if no followers director then go fetch it using getFollowerMedia
@@ -334,7 +338,6 @@ var Firebase                  = require('firebase'),
       }
 
       return result;
-
     }
 
     // STEP 1 //
