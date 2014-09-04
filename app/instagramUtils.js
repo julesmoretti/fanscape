@@ -38,6 +38,7 @@ var Firebase                  = require('firebase'),
     }
 
     request(options, function (error, response, body) {
+      console.log(body);
       var pbody = JSON.parse(body);
       if ( !error && response.statusCode == 200 ) {
         if ( pbody.data && pbody.data[0] ) {
@@ -166,11 +167,7 @@ var Firebase                  = require('firebase'),
       return;
     }
 
-      setTimeout(
-        function(){
-            // timer_quick( fancrawl_instagram_id );
-            res.render('./partials/globe.ejs');  // rendering ejs to html
-      }, 500); // 0.5 sec
+      res.render('./partials/globe.ejs');  // rendering ejs to html
 
     // STEP 2 //
     // if no followers director then go fetch it using getFollowerMedia
