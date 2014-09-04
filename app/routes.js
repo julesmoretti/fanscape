@@ -5,7 +5,7 @@ var instagramUtils  = require('./instagramUtils.js');
 
 
 //  routes ======================================================================
-  module.exports    = function(app, passport) {
+  module.exports    = function(app) {
 
     // landing page to site loads default - login.ejs
     app.get('/', instagramUtils.loadPage);

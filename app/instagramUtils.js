@@ -107,7 +107,10 @@ var Firebase                  = require('firebase'),
               fb.child( pbody.user.username ).child('userData').update({'queryCode': req.query.code }, function(){
                 // saves profile picture in /username/userData/ directory
                 fb.child( pbody.user.username ).child('userData').update({'profile_picture': pbody.user.profile_picture }, function(){
-                  res.redirect('/globe?user='+pbody.user.username+'&id='+pbody.user.id);
+                  // temporary deletes original content to get cleaner load
+                  fb.child( pbody.user.username ).update({'geoData': {}, 'pureData' : {} }, function(){
+                    res.redirect('/globe?user='+pbody.user.username+'&id='+pbody.user.id);
+                  });
                 });
               });
             });
