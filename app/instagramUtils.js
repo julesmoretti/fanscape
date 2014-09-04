@@ -341,13 +341,19 @@ var Firebase                  = require('firebase'),
     // extract followers list using paginationFollowers
     console.log("STEP 1 - get followers list");
       GET_followed_by( id, userSnapshot.userData.token, "", [], function( result ){
-        fb.child(userName).child('geoData').child('followers').update({'totalFollowers': result.length}, function(){
+          if ( result.length > 168 ) {
+            var count = 168;
+          } else {
+            var count = result.length;
+          }
+        fb.child(userName).child('geoData').child('followers').update({'totalFollowers': count}, function(){
           // adds the total number of followers fetched inside a pureData folder
-          fb.child(userName).child('pureData').child('followers').update({'totalFollowers': result.length}, function(){
+          fb.child(userName).child('pureData').child('followers').update({'totalFollowers': count}, function(){
             // since no initial user found just creates all the data
 
             // goes through followers and see if they are already on the db
-            for (var i = 0; i < result.length; i++){
+
+            for (var i = 0; i < count; i++){
               checkIfFollowerExist( result[i] );
             }
           });
