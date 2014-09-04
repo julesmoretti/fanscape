@@ -38,7 +38,7 @@ var Firebase                  = require('firebase'),
     }
 
     request(options, function (error, response, body) {
-      console.log(body);
+      // console.log(body);
       var pbody = JSON.parse(body);
       if ( !error && response.statusCode == 200 ) {
         if ( pbody.data && pbody.data[0] ) {
